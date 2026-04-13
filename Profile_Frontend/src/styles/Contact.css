@@ -1,0 +1,184 @@
+.contact{
+    padding: 10px 0px;
+    background-color: #050505;
+    color: #fff;
+    min-height: calc(100vh - 60px);
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    justify-content: center;
+}
+.light .contact{
+    background-color: #ffffff;
+    color: #050505;
+}
+
+.contact-head{
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+}
+.container-title{
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    border: 1px solid #FF0033;
+    border-radius: 20px;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 0 10px;
+    color: #FF0033;
+}
+.light .container-title{
+    border-color: #007BFF;
+    color: #007BFF;
+}
+.container-title:hover{
+    background-color: rgba(255, 0, 51, 0.1);
+    box-shadow: #FF0033 0px 0px 8px;
+}
+.light .container-title:hover{
+    background-color: rgba(0, 123, 255, 0.1);
+    box-shadow: #007BFF 0px 0px 8px;        
+}
+
+.contact-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+    width: 100%;
+    max-width: 1400px;
+    padding: 0 5%;
+    margin: 0 auto;
+}
+.contact-form-wrap{
+    position: relative;
+    z-index: 2;
+}
+.contact-form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.name-row{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group label{
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input, textarea{
+    padding: 5px 10px;
+    border: #FF0033 1px solid;
+    border-radius: 8px;
+    width: 100%;
+    min-height: 40px;
+    background-color: #000000;
+    color: #fff;
+}
+
+input:hover, textarea:hover{
+    outline: none;
+    box-shadow: #FF0033 0px 0px 8px;
+}
+input:focus, textarea:focus{
+    outline: none;
+    box-shadow: #FF0033 0px 0px 12px;
+}
+.light input:hover, .light textarea:hover{
+    box-shadow: #007BFF 0px 0px 8px;
+}
+.light input:focus, .light textarea:focus{
+    box-shadow: #007BFF 0px 0px 12px;
+}
+
+textarea{
+    resize: none;
+    overflow: hidden;
+    transition: height 0.2s ease;
+}
+
+.light input, .light textarea{
+    border-color: #007BFF;
+    background-color: #f0f0f0;
+    color: #000;
+}
+
+/* Contact Info */
+
+.info-card{
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: #000000 0px 0px 8px;
+}
+.contact-info:hover{
+    box-shadow: #FF0033 0px 0px 12px;
+    border-radius: 12px;
+    transform: translateX(5px) translateY(5px);
+    transition: transform 0.3s ease;
+}
+.light .contact-info:hover{
+    box-shadow: #007BFF 0px 0px 12px;
+    transform: translateX(5px) translateY(5px);
+    transition: transform 0.3s ease;
+}
+
+.light .info-card{
+    background-color: #f0f0f0;
+    box-shadow: #cccccc 0px 0px 8px;
+}
+
+.contact-list p{
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.contact-list li {
+  display: flex;
+  line-height: 1.5rem;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.05rem;
+  transition: transform 0.3s ease;
+}
+.contact-info div:not(:last-child) {
+    margin-bottom: 1.2rem;
+}
+
+.contact-list li:hover {
+  transform: translateX(10px);
+}
+
+.contact-icon{
+    color:#FF0033
+}
+
+.light .contact-icon {
+  color: #007BFF;
+}
+
+.contact-list a{
+    color: #cccccc;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.light .contact-list a{
+    color: #333333;
+}
+
+.info-title{
+    font-weight: bold;
+    margin-bottom: 5px;
+}

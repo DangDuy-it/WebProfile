@@ -1,0 +1,16 @@
+.login-fail-page{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    line-height: 60px;
+}
+.light .login-fail-page{
+    background-color: #f0f0f0;
+    color: #000000;
+}
+
+a{
+    text-decoration: none;
+    color: #FF0033;
+}

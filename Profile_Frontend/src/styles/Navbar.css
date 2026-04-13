@@ -1,0 +1,143 @@
+.navbar{
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background-color: rgb(0, 0, 0);
+}
+.nav-link{
+    text-decoration: none;
+    color: inherit;
+}
+.logo-link{
+    text-decoration: none;
+    color: inherit;
+}
+.nav-link.active{
+    color: #FF0033;
+}
+.light .nav-link.active{
+    color: #007BFF;
+}
+
+.light .navbar{
+    background-color:#ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.navbar-inner{
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo{
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff
+}
+.logo span{
+    color: #FF0033;
+}
+.light .logo{
+    color: #000000;
+}
+.light .logo span{
+    color: #007BFF;
+}
+
+.logo:hover{
+    color: #FF0033;
+}
+.light .logo:hover{
+    color: #007BFF;
+}
+
+.nav-links{
+    display: flex;
+    gap: 20px;
+}
+.nav-links a{
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 16px;
+    transition: color 0.3s;
+    font-weight: bold;
+}
+.nav-links a:hover{
+    color:  #FF0033;
+}
+.light .nav-links a{
+    color: #000000;
+}
+.light .nav-links a:hover{
+    color: #007BFF;
+}
+.theme-toggle{
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #ffffff;
+}
+
+.light .theme-toggle{
+    color: #000000;
+}
+.theme-toggle:hover{
+    color: #FF0033;
+}
+.light .theme-toggle:hover{
+    color: #007BFF;
+}
+.admin-btn{
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 25px;
+    color: #ffffff;
+    position: relative;
+}
+.light .admin-btn{
+    color: #000000;
+}   
+.admin-btn:hover{
+    color: #FF0033;
+}
+.light .admin-btn:hover{
+    color: #007BFF;
+}
+
+
+.admin-text{
+    position: absolute;
+    padding-left: 0px;
+    font-size: 1.2rem;
+    left: 70%;
+    top: 45%;
+    transform: translateY(-40%);
+    white-space: nowrap;
+    opacity: 0;
+    max-width: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transition: max-width 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+}
+.admin-btn:hover .admin-text {
+  opacity: 1;
+  max-width: 100px;               /* đủ chỗ cho chữ dài nhất */
+  transform: translateY(-50%) translateX(10px);  /* trượt ra phải một chút */
+}
+
+/* Optional: thêm shadow nhẹ để chữ nổi bật hơn (vẫn không background) */
+.admin-btn:hover .admin-text {
+  text-shadow: 0 0 5px rgba(255, 0, 51, 0.5);
+}

@@ -1,0 +1,132 @@
+.about{
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: #050505;
+    color: #fff;
+    min-height: calc(100vh - 60px);
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+.light .about{
+    background-color: #fff;
+    color: #050505;
+}
+.about-title{
+    text-align: center;
+    font-size: 1.5rem;
+    border: 1px solid #FF0033;
+    border-radius: 20px;  
+    padding: 0 10px;  
+    width: fit-content;
+    margin: 0 auto;
+    color: #FF0033;
+}
+
+.light .about-title{
+    border-color: #007BFF;
+    color: #007BFF;
+}
+
+.about-title:hover{
+    background-color: rgba(255, 0, 51, 0.1);
+    box-shadow: #FF0033 0px 0px 8px;
+}
+.light .about-title:hover{
+    background-color: rgba(0, 123, 255, 0.1);
+    box-shadow: #007BFF 0px 0px 8px;        
+}
+
+
+.about-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    width: 100%;
+    max-width: 1400px;
+    padding: 0 5%;
+    margin: 0 auto;
+}
+
+.about-text-wrap{
+    position: relative;
+    z-index: 2;
+    line-height: 1.6;
+    text-align: justify;
+    word-break: break-word;
+    hyphens: auto;
+}
+.about-badge{
+    display: inline-block;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+.about-intro{
+    margin-top: 1rem;
+    font-size: 1.15rem;
+    color: #CCCCCC;
+    opacity: 0.9;
+}
+.light .about-intro{
+    color: #333333;
+}
+
+.about-body{
+    color: #CCCCCC;
+    opacity: 0.9;
+    margin-top: 1rem;
+    font-size: 1.1rem;
+}
+
+.light .about-body{
+    color: #333333;
+}
+
+
+ul.about-highlights{
+    margin-top: 1rem;
+    list-style-type: none;
+    padding-left: 5px;
+}
+.highlight-icon{
+    margin-right: 8px;
+}
+
+.moon-icon{
+    display: none;
+}
+.sun-icon{
+    display: inline-block;
+}
+
+.light .sun-icon{
+    display: none;
+}
+
+.light .moon-icon{
+    display: inline-block;
+}
+
+
+.about-highlights strong{
+    color: #ad0325;
+}
+.light .about-highlights strong{
+    color: #004085;
+}
+
+
+
+.about-image-wrap{
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1200px;
+    height: 600px;
+    
+}

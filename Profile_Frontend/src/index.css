@@ -1,0 +1,129 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+html {
+  height: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Khoảng cách cho navbar cố định */
+  scroll-snap-type: y proximity; /* Snap khi scroll bằng chuột */
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #050505;
+  color: white;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+.light body {
+  background-color: #f0f0f0;
+  color: #000000;
+}
+
+
+main, .main-content {
+  flex: 1;
+  padding-top: 30px;
+  
+}
+
+/* Scroll snap cho các sections */
+section {
+  min-height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+
+/* Đảm bảo app-wrapper full height */
+.app-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero {         /* full chiều cao viewport */
+  display: flex;          /* biến hero thành flex container */
+  justify-content: center;
+  align-items: center;
+}
+
+
+html.dark,
+html.dark body {
+  background-color: #050505;
+}
+
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #050505;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+
+::-webkit-scrollbar{
+    width: 0px;
+}
+::-webkit-scrollbar-track{
+    background: #121212;
+}
+::-webkit-scrollbar-thumb{
+    background: #FF0033;
+    border-radius: 10px;
+    border: 3px solid #121212;
+}
+::-webkit-scrollbar-thumb:hover{
+    background: #e60000;
+}
+
+.light ::-webkit-scrollbar-track{
+    background: #f0f0f0;
+}
+.light ::-webkit-scrollbar-thumb{
+    background: #007BFF;
+    border: 3px solid #f0f0f0;
+}
+.light ::-webkit-scrollbar-thumb:hover{
+    background: #006fe6;
+}
+
