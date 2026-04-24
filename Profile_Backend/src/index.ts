@@ -1,12 +1,13 @@
 // src/index.ts
 import express from 'express';
 import cors from 'cors';
-import { sqlConnection } from './config/db';
+import { connectDB } from './config/db';
 import passport from './config/passport';
 import session from 'express-session';
 
 import profileRoutes from './routes/profileRoutes';
 import contactsRoutes from './routes/contactsRoutes';
+import skillsRoutes from './routes/skillsRoutes';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -34,6 +35,7 @@ app.use(passport.session());
 // Gắn routes
 app.use('/api', profileRoutes);
 app.use('/api', contactsRoutes);
+app.use('/api', skillsRoutes);
 
 // Route Google login
 app.get('/api/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
@@ -73,7 +75,7 @@ app.get('/api/auth/google/callback',
 // Khởi động server
 app.listen(PORT, async () => {
   try {
-    await sqlConnection();
+    await connectDB();
     console.log(`✅ Server is running on port ${PORT}`);
   } catch (err) {
     console.error('❌ Failed to connect to the database:', err);

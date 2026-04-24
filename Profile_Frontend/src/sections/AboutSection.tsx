@@ -25,6 +25,12 @@ export default function AboutSection() {
             try{
                 const response= await fetch('http://localhost:5000/api/about');
 
+                if (response.status === 404) {
+                    // Bỏ qua lỗi 404 nếu database chưa có dữ liệu profile
+                    setAboutData(null);
+                    return;
+                }
+
                 if(!response.ok){
                     throw new Error(`Lỗi tải dữ liệu: ${response.statusText}`);
                 }

@@ -1,0 +1,148 @@
+.skills {
+    padding: 80px 0;
+    /* Optional: background-color matching rest of site if needed */
+    background-color: var(--secondary-bg, #f9f9f9); 
+    color: var(--text-color, #333);
+}
+
+.skills .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.skills-head {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.skills-head .container-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--primary-color, #1a1a1a);
+}
+
+.skills-head .container-intro {
+    font-size: 1.1rem;
+    color: var(--text-muted, #666);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.skill-category-card {
+    background: var(--card-bg, #fff);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.skill-category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.skill-category-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    gap: 15px;
+}
+
+.skill-cat-icon {
+    font-size: 1.8rem;
+    color: var(--accent-color, #007bff);
+}
+
+.skill-category-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--primary-color, #1a1a1a);
+    text-transform: capitalize;
+}
+
+.skills-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.skill-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.skill-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.skill-name {
+    color: var(--text-color, #333);
+}
+
+.skill-percentage {
+    color: var(--text-muted, #777);
+    font-size: 0.9rem;
+}
+
+.skill-bar-bg {
+    width: 100%;
+    height: 8px;
+    background-color: var(--bar-bg, #e0e0e0);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.skill-bar-fill {
+    height: 100%;
+    background-color: var(--accent-color, #007bff);
+    border-radius: 4px;
+    transition: width 1s ease-in-out;
+}
+
+/* Dark mode adjustments (if your app uses .dark for dark theme) */
+html.dark .skills {
+    background-color: var(--secondary-bg, #1e1e1e);
+}
+
+html.dark .skill-category-card {
+    background: var(--card-bg, #2a2a2a);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+html.dark .skill-head .container-title,
+html.dark .skill-category-title,
+html.dark .skill-name {
+    color: #fff;
+}
+
+html.dark .skills-head .container-intro,
+html.dark .skill-percentage {
+    color: #bbb;
+}
+
+html.dark .skill-bar-bg {
+    background-color: #444;
+}
+
+@media (max-width: 768px) {
+    .skills-head .container-title {
+        font-size: 2rem;
+    }
+    .skill-category-card {
+        padding: 20px;
+    }
+}

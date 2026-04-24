@@ -1,37 +1,15 @@
-import sql from 'mssql';
-import dotenv from 'dotenv';
+import { PrismaClient } from '@prisma/client';
 
-dotenv.config();
+const prisma = new PrismaClient();
 
-const dbConfig: sql.config={
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    server: process.env.DB_SERVER || 'localhost',
-    database: process.env.DB_DATABASE,
-    port: Number(process.env.DB_PORT),
-    options: {
-        encrypt: process.env.DB_ENCRYPT === 'true',
-        trustServerCertificate: true,
-    },
-    pool:{
-        max: 10,
-        min: 0,
-        idleTimeoutMillis: 30000
-    }
-}
-
-export const sqlConnection = async () => {
-    try{
-        const pool = await sql.connect(dbConfig);
-        console.log('Connected to SQL Server');
-        return pool;
+export const connectDB = async () => {
+    try {
+        await prisma.$connect();
+        console.log('Connected to SQL Server via Prisma');
     } catch (error) {
-        console.error('SQL Connection Error: ', error);
-        throw error;
+        console.error('Prisma Connection Error: ', error);
+        process.exit(1);
     }
 }
 
-export const getRequest = async () => {
-    const pool = await sqlConnection();
-    return pool.request();
-}
+export default prisma;

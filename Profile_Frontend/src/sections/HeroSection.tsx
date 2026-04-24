@@ -20,6 +20,12 @@ export default function HeroSection() {
       try{
         const response = await fetch('http://localhost:5000/api/home');
 
+        if (response.status === 404) {
+          // Bỏ qua lỗi 404 nếu database chưa có dữ liệu profile
+          setHomeData(null);
+          return;
+        }
+
         if(!response.ok){
           throw new Error(`Lỗi tải dữ liệu: ${response.statusText}`);
         }
