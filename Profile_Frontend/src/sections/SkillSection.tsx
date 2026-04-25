@@ -1,51 +1,54 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import '../styles/Skills.css';
 import { FaCode, FaServer, FaTools, FaDatabase, FaLayerGroup } from "react-icons/fa";
 
-interface Skill {
+
+interface skill{
     Id: number;
-    Name: string;
-    Category: string;
+    Name: String;
+    Category: String;
     Level: number;
-    Description: string;
+    Description: String;
     IsVisible: boolean;
 }
 
-const getCategoryIcon = (category: string) => {
-    switch (category?.toLowerCase()) {
-        case "frontend": return <FaCode className="skill-cat-icon" />;
+const getCategoryIcon = (categroy: string)=>{
+    switch( categroy?.toLowerCase()){
+        case "fontend": return <FaCode className="skill-cat-icon" />;
         case "backend": return <FaServer className="skill-cat-icon" />;
         case "database": return <FaDatabase className="skill-cat-icon" />;
         case "tools": return <FaTools className="skill-cat-icon" />;
         default: return <FaLayerGroup className="skill-cat-icon" />;
     }
-};
+}
 
-export default function SkillSection() {
-    const [skills, setSkills] = useState<Skill[]>([]);
+
+export default function SkillSection(){
+    const [skills, setSkills]= useState<skill[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const fetchSkills = async () => {
-            try {
-                const response = await fetch('http://localhost:5000/api/skills');
-                if (!response.ok) {
-                    throw new Error(`Lá»—i táº£i dá»¯ liá»‡u: ${response.statusText}`);
+    useEffect(()=>{
+        const fetchSkills = async()=>{
+            try{
+                const response= await fetch('http://localhost:5000/api/skills');
+                if( !response.ok){
+                    throw new Error(`Lỗi tải dữ liệu: ${response.statusText}`);
                 }
-                const data = await response.json();
+                const data= await response.json();
                 setSkills(data || []);
-            } catch (err: any) {
-                console.error('Error fetching skills:', err);
-                setError(err.message);
-            } finally {
+            }
+            catch(error: any){
+                console.error('Error fetching skills:', error);
+                setError(error.message);
+            }
+            finally{
                 setLoading(false);
             }
-        };
+        }
         fetchSkills();
     }, []);
-
-    if (loading) {
+    if(loading){
         return (
             <section className="skills" id="skills">
                 <div className="container loading-wrap">
@@ -54,8 +57,7 @@ export default function SkillSection() {
             </section>
         );
     }
-
-    if (error) {
+    if(error){
         return (
             <section className="skills" id="skills">
                 <div className="container error-wrap">
@@ -64,16 +66,16 @@ export default function SkillSection() {
             </section>
         );
     }
-
-    // Gá»™p bá»Ÿi Category
-    const groupedSkills = skills.reduce((acc, skill) => {
+    //Gộp bởi Category
+    const groupedSkills= skills.reduce((acc, skill)=>{
         const cat = skill.Category || "Other";
-        if (!acc[cat]) {
+        if(!acc[cat] ){
             acc[cat] = [];
         }
         acc[cat].push(skill);
         return acc;
-    }, {} as Record<string, Skill[]>);
+    }, {} as Record<string, skill[]>);
+    
 
     return (
         <section className="skills" id="skills">
@@ -84,12 +86,12 @@ export default function SkillSection() {
                         Here are some of the technologies, tools, and languages I use to build my projects.
                     </p>
                 </div>
-
-                <div className="skills-grid">
-                    {Object.keys(groupedSkills).map((category) => (
-                        <div key={category} className="skill-category-card">
+                
+                <div className="skills-grid"> 
+                    {Object.keys(groupedSkills).map((category)=>(
+                        <div key={category} className="skill-category-card" >
                             <div className="skill-category-header">
-                                {getCategoryIcon(category)}
+                                {getCategoryIcon(category)}    
                                 <h3 className="skill-category-title">{category}</h3>
                             </div>
                             <div className="skills-list">
@@ -97,9 +99,6 @@ export default function SkillSection() {
                                     <div key={skill.Id} className="skill-item">
                                         <div className="skill-info">
                                             <span className="skill-name">{skill.Name}</span>
-                                            {/* Optional: Show percentage value
-                                                <span className="skill-percentage">{skill.Level * 10}%</span>
-                                            */}
                                         </div>
                                         <div className="skill-bar-bg">
                                             <div 
@@ -110,10 +109,17 @@ export default function SkillSection() {
                                     </div>
                                 ))}
                             </div>
+
                         </div>
                     ))}
+
+
                 </div>
             </div>
         </section>
-    );
+    )
 }
+
+
+
+

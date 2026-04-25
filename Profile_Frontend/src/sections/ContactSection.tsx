@@ -4,15 +4,13 @@ import emailjs from '@emailjs/browser';
 import { FaEnvelope, FaFacebook, FaGithub, FaPhone } from "react-icons/fa";
 
 
-
-
 export default function Contact() {
 
     interface ContactDataType{
         Id: number;
         Type: string;
         Name: string;
-        Title: string;
+        // Title: string;
         Value: string;
         Icon: string;
         IsVisible: boolean;
@@ -36,7 +34,7 @@ export default function Contact() {
 
         const fetchContactData= async()=>{
             try{
-                const response= await fetch('http://localhost:5000/api/contact');
+                const response= await fetch('http://localhost:5000/api/contacts');
 
                 if(!response.ok){
                     throw new Error(`Lỗi tải dữ liệu: ${response.statusText}`);
@@ -198,7 +196,9 @@ export default function Contact() {
                         </form>
                         {status && <p className="contact-status">{status}</p>}
                     </div>
-                    {/* Contact Information */}
+
+
+            {/* Contact Information */}
                     <div className="contact-info">
                         <div className="info-card">
                             
@@ -213,12 +213,14 @@ export default function Contact() {
                                                 contact.Name==="Email" ? `mailto:${contact.Value}` :contact.Value 
                                         
                                             } target="_blank">
-                                                {contact.Title}
+                                                {contact.Name}
                                             </a>
                                         </li>
                                     ))}
                                 </ul>
                             </div>
+
+
                             {/* Call Group */}
                             <div className="call-group">
                                     <p className="info-title">Call me</p>
@@ -226,7 +228,7 @@ export default function Contact() {
                                         {ContactData?.filter(c=>c.Type==="Call").map(contact=>(
                                             <li key={contact.Id} className="info-item">
                                                 {iconMap[contact.Icon] || <span className="contact-icon"></span>}
-                                                <a href={`tel:${contact.Value}`}>{contact.Title}</a>
+                                                <a href={`tel:${contact.Value}`}>{contact.Name}</a>
                                             </li>
                                         ))}
                                     </ul>
@@ -240,7 +242,7 @@ export default function Contact() {
                                     {ContactData?.filter(c=> c.Type==="Other").map(contact=>(
                                         <li key={contact.Id} className="info-item">
                                             {iconMap[contact.Icon] || <span className="contact-icon"></span>}
-                                            <a href={contact.Value} target="_blank">{contact.Title}</a>
+                                            <a href={contact.Value} target="_blank">{contact.Name}</a>
                                         </li>
                                     ))}
                                 </ul>

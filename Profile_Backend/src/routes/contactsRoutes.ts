@@ -4,6 +4,6 @@ import { getContactData } from "../controllers/contactsControllers";
 const router= Router();
 
 // Route cho trang Contacts
-router.get('/contact', getContactData);
+router.get('/contacts', getContactData);
 
 export default router;
