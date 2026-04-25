@@ -70,6 +70,7 @@ model Skill {
   IsVisible   Boolean  @default(true)
   OrderIndex  Int      @default(0)
   CreatedAt   DateTime @default(now())
+  Icon        String?  @db.NVarChar(255)
   Profile     Profile  @relation(fields: [ProfileId], references: [Id], onDelete: Cascade)
 
   @@map("Skill")

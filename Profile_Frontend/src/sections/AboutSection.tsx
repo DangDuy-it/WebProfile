@@ -1,6 +1,7 @@
 import '../styles/About.css';
-import {FaSun, FaMoon} from 'react-icons/fa';
+import IconRender from '../constants/icons';
 import { useEffect, useState } from 'react';
+import icons from '../constants/icons';
 
 export default function AboutSection() {
     interface AboutDataType{
@@ -91,32 +92,32 @@ export default function AboutSection() {
                     <ul className="about-highlights">
                         <li>
                             <span className='highlight-icon'>
-                                <FaSun className='sun-icon'></FaSun>
-                                <FaMoon className='moon-icon'></FaMoon>
+                                <IconRender iconName='FaSun' className='icon-light'/>
+                                <IconRender iconName='FaMoon' className='icon-dark'/>
                             </span>
                             <strong>University:</strong> {AboutData?.university}</li>
                         <li>
                             <span className='highlight-icon'>
-                                <FaSun className='sun-icon'></FaSun>
-                                <FaMoon className='moon-icon'></FaMoon>
+                                <IconRender iconName='FaSun' className='icon-light'/>
+                                <IconRender iconName='FaMoon' className='icon-dark'/>
                             </span>
                             <strong>Major:</strong> {AboutData?.major}</li>
                         <li>
                             <span className='highlight-icon'>
-                                <FaSun className='sun-icon'></FaSun>
-                                <FaMoon className='moon-icon'></FaMoon>
+                                <IconRender iconName='FaSun' className='icon-light'/>
+                                <IconRender iconName='FaMoon' className='icon-dark'/>
                             </span>
                             <strong>Current Focus:</strong> {AboutData?.focus}</li>
                         <li>
                             <span className='highlight-icon'>
-                                <FaSun className='sun-icon'></FaSun>
-                                <FaMoon className='moon-icon'></FaMoon>
+                                <IconRender iconName='FaSun' className='icon-light'/>
+                                <IconRender iconName='FaMoon' className='icon-dark'/>
                             </span>
                             <strong>Goal:</strong> {AboutData?.goal}</li>
                         <li>
                             <span className='highlight-icon'>
-                                <FaSun className='sun-icon'></FaSun>
-                                <FaMoon className='moon-icon'></FaMoon>
+                                <IconRender iconName='FaSun' className='icon-light'/>
+                                <IconRender iconName='FaMoon' className='icon-dark'/>
                             </span>
                             <strong>Fun fact:</strong> {AboutData?.fact}</li>
                     </ul>

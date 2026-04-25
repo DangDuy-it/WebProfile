@@ -1,26 +1,17 @@
 import React, { use, useEffect, useState } from "react";
 import '../styles/Skills.css';
-import { FaCode, FaServer, FaTools, FaDatabase, FaLayerGroup } from "react-icons/fa";
-
+import IconRender from '../constants/icons';
 
 interface skill{
     Id: number;
     Name: String;
     Category: String;
     Level: number;
+    Icon: String;
     Description: String;
     IsVisible: boolean;
 }
 
-const getCategoryIcon = (categroy: string)=>{
-    switch( categroy?.toLowerCase()){
-        case "fontend": return <FaCode className="skill-cat-icon" />;
-        case "backend": return <FaServer className="skill-cat-icon" />;
-        case "database": return <FaDatabase className="skill-cat-icon" />;
-        case "tools": return <FaTools className="skill-cat-icon" />;
-        default: return <FaLayerGroup className="skill-cat-icon" />;
-    }
-}
 
 
 export default function SkillSection(){
@@ -75,7 +66,7 @@ export default function SkillSection(){
         acc[cat].push(skill);
         return acc;
     }, {} as Record<string, skill[]>);
-    
+    console.log('Grouped Skills:', groupedSkills);
 
     return (
         <section className="skills" id="skills">
@@ -91,13 +82,14 @@ export default function SkillSection(){
                     {Object.keys(groupedSkills).map((category)=>(
                         <div key={category} className="skill-category-card" >
                             <div className="skill-category-header">
-                                {getCategoryIcon(category)}    
+                                <IconRender iconName={groupedSkills[category][0].Icon as string} className="skill-icon" />
                                 <h3 className="skill-category-title">{category}</h3>
                             </div>
                             <div className="skills-list">
                                 {groupedSkills[category].map((skill) => (
                                     <div key={skill.Id} className="skill-item">
                                         <div className="skill-info">
+                                            <IconRender iconName={skill.Icon as string}  className="skill-icon" />
                                             <span className="skill-name">{skill.Name}</span>
                                         </div>
                                         <div className="skill-bar-bg">

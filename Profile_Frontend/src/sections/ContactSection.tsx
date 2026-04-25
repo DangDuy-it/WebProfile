@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, type JSX } from "react";
 import '../styles/Contact.css';
 import emailjs from '@emailjs/browser';
-import { FaEnvelope, FaFacebook, FaGithub, FaPhone } from "react-icons/fa";
+import IconRender from "../constants/icons";
 
 
 export default function Contact() {
@@ -15,13 +15,7 @@ export default function Contact() {
         Icon: string;
         IsVisible: boolean;
     }
-    // Render danh sách động
-    const iconMap: Record<string, JSX.Element> = {
-        FaEnvelope: <FaEnvelope className="contact-icon" />,
-        FaPhone: <FaPhone className="contact-icon" />,
-        FaFacebook: <FaFacebook className="contact-icon" />,
-        FaGithub: <FaGithub className="contact-icon" />
-    };
+
 
     const formRef = useRef<HTMLFormElement>(null);
     const [status, setStatus]= useState('');
@@ -208,7 +202,7 @@ export default function Contact() {
                                 <ul className="contact-list">
                                     {ContactData?.filter(c=> c.Type==="Chat").map(contact=>(
                                         <li key={contact.Id} className="info-item">
-                                            {iconMap[contact.Icon] || <span className="contact-icon"></span>}
+                                            <IconRender iconName={contact.Icon} className="contact-icon"/>
                                             <a href={
                                                 contact.Name==="Email" ? `mailto:${contact.Value}` :contact.Value 
                                         
@@ -227,7 +221,7 @@ export default function Contact() {
                                     <ul className="contact-list">
                                         {ContactData?.filter(c=>c.Type==="Call").map(contact=>(
                                             <li key={contact.Id} className="info-item">
-                                                {iconMap[contact.Icon] || <span className="contact-icon"></span>}
+                                                <IconRender iconName={contact.Icon} className="contact-icon"/>
                                                 <a href={`tel:${contact.Value}`}>{contact.Name}</a>
                                             </li>
                                         ))}
@@ -241,7 +235,7 @@ export default function Contact() {
                                 <ul className="contact-list">
                                     {ContactData?.filter(c=> c.Type==="Other").map(contact=>(
                                         <li key={contact.Id} className="info-item">
-                                            {iconMap[contact.Icon] || <span className="contact-icon"></span>}
+                                            <IconRender iconName={contact.Icon} className="contact-icon"/>
                                             <a href={contact.Value} target="_blank">{contact.Name}</a>
                                         </li>
                                     ))}
