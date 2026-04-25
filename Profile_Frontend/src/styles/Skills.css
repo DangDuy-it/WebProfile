@@ -1,0 +1,109 @@
+.skills{
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: #050505;
+    color: #fff;
+    min-height: calc(100vh - 60px);
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.light .skills{
+    background-color: #fff;
+    color: #050505;
+}
+
+
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;       /* Cho phép các card xuống dòng */
+    justify-content: center; /* Căn giữa các card trong vùng chứa */
+    gap: 40px;             /* Khoảng cách thực giữa các card */
+    width: 100%;
+    max-width: 1200px;     /* Giới hạn độ rộng tổng để không bị quá loãng */
+    padding: 20px;
+}
+
+.skill-category-card{
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    width: fit-content;
+    min-width: 200px;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    
+}
+.light .skill-category-card{
+    background-color: #f0f0f0;
+}
+.skill-category-card:hover{
+    outline: none;
+    transform: translateY(-5px);
+    box-shadow: #FF0033 0px 0px 12px;
+}
+.light .skill-category-card:hover{
+    box-shadow: #007BFF 0px 0px 12px;
+}
+.skill-category-header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.skill-category-title{
+    font-size: 1.2rem;
+    color: #FF0033;
+}
+.light .skill-category-title{
+    color: #007BFF;
+}
+
+.skills-list{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: fit-content;
+}
+
+.skill-item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-shrink: 0;
+}
+
+.skill-icon{
+    font-size: 1.5rem;
+    color: #FF0033;
+}
+.light .skill-icon{
+    color: #007BFF;
+}
+
+.skill-info{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+
+.skill-name{
+    font-size: 1rem;
+    color: #fff;
+    white-space: nowrap;
+}
+.light .skill-name{
+    color: #050505;
+}

@@ -44,6 +44,10 @@
     background-color: rgba(0, 123, 255, 0.1);
     box-shadow: #007BFF 0px 0px 8px;        
 }
+.container-intro{
+    font-size: 1.1rem;
+    text-align: center;
+}
 
 .contact-grid{
     display: grid;
@@ -67,7 +71,7 @@
 .name-row{
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 30px;
 }
 
 .form-group label{
@@ -88,7 +92,7 @@ input, textarea{
 
 input:hover, textarea:hover{
     outline: none;
-    box-shadow: #FF0033 0px 0px 8px;
+    box-shadow: #FF0033 0px 0px 12px;
 }
 input:focus, textarea:focus{
     outline: none;
@@ -118,12 +122,14 @@ textarea{
 .info-card{
     background-color: #1a1a1a;
     padding: 20px;
+    width: fit-content;
     border-radius: 12px;
     box-shadow: #000000 0px 0px 8px;
 }
 .contact-info:hover{
     box-shadow: #FF0033 0px 0px 12px;
     border-radius: 12px;
+    width: fit-content;
     transform: translateX(5px) translateY(5px);
     transition: transform 0.3s ease;
 }

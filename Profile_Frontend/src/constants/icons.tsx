@@ -18,6 +18,7 @@ interface IconProps{
     className?: string;
 }
 
+
 const IconRender: React.FC<IconProps> = ({ iconName, className }) => {
     const IconComponent = Allicons[iconName as keyof typeof Allicons];
     if (!IconComponent) {

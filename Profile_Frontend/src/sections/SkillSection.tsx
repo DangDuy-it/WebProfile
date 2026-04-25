@@ -66,7 +66,13 @@ export default function SkillSection(){
         acc[cat].push(skill);
         return acc;
     }, {} as Record<string, skill[]>);
-    console.log('Grouped Skills:', groupedSkills);
+
+    const categoryIcons: Record<string, string> = {
+        "Frontend": "FaCode",
+        "Backend": "FaServer",
+        "Database": "DiMsqlServer",
+        "Tool": "FaTools"
+    };
 
     return (
         <section className="skills" id="skills">
@@ -82,7 +88,7 @@ export default function SkillSection(){
                     {Object.keys(groupedSkills).map((category)=>(
                         <div key={category} className="skill-category-card" >
                             <div className="skill-category-header">
-                                <IconRender iconName={groupedSkills[category][0].Icon as string} className="skill-icon" />
+                                <IconRender iconName={categoryIcons[category] || "FaTools"} className="skill-icon" />
                                 <h3 className="skill-category-title">{category}</h3>
                             </div>
                             <div className="skills-list">
@@ -92,20 +98,18 @@ export default function SkillSection(){
                                             <IconRender iconName={skill.Icon as string}  className="skill-icon" />
                                             <span className="skill-name">{skill.Name}</span>
                                         </div>
-                                        <div className="skill-bar-bg">
+                                        {/* <div className="skill-bar-bg">
                                             <div 
                                                 className="skill-bar-fill" 
                                                 style={{ width: `${Math.min(100, Math.max(0, skill.Level * 10))}%` }}
                                             ></div>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 ))}
                             </div>
 
                         </div>
                     ))}
-
-
                 </div>
             </div>
         </section>
