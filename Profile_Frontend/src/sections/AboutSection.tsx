@@ -2,6 +2,7 @@ import '../styles/About.css';
 import IconRender from '../constants/icons';
 import { useEffect, useState } from 'react';
 import icons from '../constants/icons';
+import { useTheme } from '../contexts/ThemeContext';
 
 export default function AboutSection() {
     interface AboutDataType{
@@ -16,7 +17,7 @@ export default function AboutSection() {
         goal: string;
         fact: string;
     }
-
+    const { lightMode, toggleTheme } = useTheme();  
     const [AboutData, setAboutData]= useState<AboutDataType | null>(null);
     const [loading, setLoading]= useState(true);
     const [error, setError]= useState<string | null>(null);
@@ -92,32 +93,28 @@ export default function AboutSection() {
                     <ul className="about-highlights">
                         <li>
                             <span className='highlight-icon'>
-                                <IconRender iconName='FaSun' className='icon-light'/>
-                                <IconRender iconName='FaMoon' className='icon-dark'/>
+                                {!lightMode ? <IconRender iconName='FaSun' className='icon-light'/> : <IconRender iconName='FaMoon' className='icon-dark'/>}
                             </span>
                             <strong>University:</strong> {AboutData?.university}</li>
                         <li>
                             <span className='highlight-icon'>
-                                <IconRender iconName='FaSun' className='icon-light'/>
-                                <IconRender iconName='FaMoon' className='icon-dark'/>
+                                {!lightMode ? <IconRender iconName='FaSun' className='icon-light'/> : <IconRender iconName='FaMoon' className='icon-dark'/>}
+                                
                             </span>
                             <strong>Major:</strong> {AboutData?.major}</li>
                         <li>
                             <span className='highlight-icon'>
-                                <IconRender iconName='FaSun' className='icon-light'/>
-                                <IconRender iconName='FaMoon' className='icon-dark'/>
+                                {!lightMode ? <IconRender iconName='FaSun' className='icon-light'/> : <IconRender iconName='FaMoon' className='icon-dark'/>}
                             </span>
                             <strong>Current Focus:</strong> {AboutData?.focus}</li>
                         <li>
                             <span className='highlight-icon'>
-                                <IconRender iconName='FaSun' className='icon-light'/>
-                                <IconRender iconName='FaMoon' className='icon-dark'/>
+                                {!lightMode ? <IconRender iconName='FaSun' className='icon-light'/> : <IconRender iconName='FaMoon' className='icon-dark'/>}
                             </span>
                             <strong>Goal:</strong> {AboutData?.goal}</li>
                         <li>
                             <span className='highlight-icon'>
-                                <IconRender iconName='FaSun' className='icon-light'/>
-                                <IconRender iconName='FaMoon' className='icon-dark'/>
+                                {!lightMode ? <IconRender iconName='FaSun' className='icon-light'/> : <IconRender iconName='FaMoon' className='icon-dark'/>}
                             </span>
                             <strong>Fun fact:</strong> {AboutData?.fact}</li>
                     </ul>

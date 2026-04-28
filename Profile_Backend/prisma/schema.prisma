@@ -18,10 +18,12 @@ model Profile {
   Body           String?          @db.NVarChar(Max)
   CreatedAt      DateTime         @default(now())
   UpdatedAt      DateTime         @default(now())
+  
   AboutHighlight AboutHighlight[]
   ContactInfo    ContactInfo[]
   Project        Project[]
   Skill          Skill[]
+  Timeline       Timeline[]
 
   @@map("Profile")
 }
@@ -33,6 +35,7 @@ model ContactInfo {
   Name       String?  @db.NVarChar(50)
   Value      String   @db.NVarChar(500)
   Icon       String?  @db.NVarChar(100)
+  Category   String?  @db.NVarChar(255)
   IsVisible  Boolean  @default(true)
   OrderIndex Int      @default(0)
   CreatedAt  DateTime @default(now())
@@ -41,10 +44,26 @@ model ContactInfo {
   @@map("ContactInfo")
 }
 
+model Skill {
+  Id          Int      @id @default(autoincrement())
+  ProfileId   Int
+  Name        String   @db.NVarChar(100)
+  Category    String?  @db.NVarChar(50)
+  Description String?  @db.NVarChar(500)
+  Icon        String?  @db.NVarChar(255)
+  IsVisible   Boolean  @default(true)
+  OrderIndex  Int      @default(0)
+  CreatedAt   DateTime @default(now())
+  Profile     Profile  @relation(fields: [ProfileId], references: [Id], onDelete: Cascade)
+
+  @@map("Skill")
+}
+
 model Project {
   Id          Int      @id @default(autoincrement())
   ProfileId   Int
   Title       String   @db.NVarChar(200)
+  Category    String   @db.NVarChar(100)
   Description String?  @db.NVarChar(Max)
   TechStack   String?  @db.NVarChar(500)
   LinkDemo    String?  @db.NVarChar(500)
@@ -54,36 +73,32 @@ model Project {
   IsVisible   Boolean  @default(true)
   OrderIndex  Int      @default(0)
   CreatedAt   DateTime @default(now())
-  UpdatedAt   DateTime @default(now())
   Profile     Profile  @relation(fields: [ProfileId], references: [Id], onDelete: Cascade)
 
   @@map("Project")
 }
 
-model Skill {
+model Timeline {
   Id          Int      @id @default(autoincrement())
   ProfileId   Int
-  Name        String   @db.NVarChar(100)
-  Category    String?  @db.NVarChar(50)
-  Level       Int      @default(5)
-  Description String?  @db.NVarChar(500)
-  IsVisible   Boolean  @default(true)
+  Type        String   @db.NVarChar(50) 
+  Title       String   @db.NVarChar(200)
+  Duration    String   @db.NVarChar(100)
+  Description String?  @db.NVarChar(Max)
   OrderIndex  Int      @default(0)
-  CreatedAt   DateTime @default(now())
-  Icon        String?  @db.NVarChar(255)
   Profile     Profile  @relation(fields: [ProfileId], references: [Id], onDelete: Cascade)
 
-  @@map("Skill")
+  @@map("Timeline")
 }
 
+
 model AboutHighlight {
-  Id         Int      @id(map: "About_highlight_pkey") @default(autoincrement())
+  Id         Int      @id @default(autoincrement())
   ProfileId  Int
   University String?  @db.NVarChar(200)
   Major      String?  @db.NVarChar(200)
   Goal       String?  @db.NVarChar(Max)
-  Focus      String?  @db.NVarChar(200)
-  Fact       String?  @db.NVarChar(200)
-  CreatedAt  DateTime @default(now(), map: "About_highlight_CreatedAt_df")
-  Profile    Profile  @relation(fields: [ProfileId], references: [Id], onDelete: Cascade, map: "About_highlight_ProfileId_fkey")
+  Profile    Profile  @relation(fields: [ProfileId], references: [Id], onDelete: Cascade)
+
+  @@map("AboutHighlight")
 }

@@ -50,9 +50,7 @@ export const getAboutData = async (req: Request, res: Response): Promise<void> =
                 avtLightImage: profile.AvtLightImage,
                 university: highlight.University || null,
                 major: highlight.Major || null,
-                focus: highlight.Focus || null,
                 goal: highlight.Goal || null,
-                fact: highlight.Fact || null
             }]);
         } else {
             res.status(404).json({ error: 'Profile not found' });
