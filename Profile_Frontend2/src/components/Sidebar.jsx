@@ -10,13 +10,21 @@ const Sidebar= ({profile, contacts})=>{
     const infoContacts= contacts?.filter(contact=> contact.Category==="Info");
     const linkContacts= contacts?.filter(contact=> contact.Category==="Link");
 
+    
 
     return (
-        <aside className={`sidebar bg-[#1e1e1f] border border-[#383838] rounded-[30px] p-5 shadow-lg mb-8 lg:sticky lg:top-14 lg:min-w-[280px] z-10 transition-all duration-500 overflow-hidden ${
-        isOpen ? "max-h-[1000px]" : "max-h-[120px] lg:max-h-none"
+        <aside className={`sidebar bg-[#1e1e1f] border border-[#383838] rounded-[30px] p-5 shadow-lg mb-8 lg:sticky lg:top-14 lg:min-w-[280px] z-10 transition-all duration-[500ms] ease-in-out overflow-hidden relative ${
+        isOpen ? "max-h-[1000px] p-8" : "max-h-[160px] lg:max-h-[1000px] lg:p-5"
         }`}>
+                {/* Nút Toggle chỉ hiện trên Mobile */}
+                <button
+                    onClick={()=> setIsOpen(!isOpen)}
+                    className="lg:hidden absolute top-0 right-0 text-[#ffdb70] border-l border-b border-[#383838] p-1 rounded-bl-2xl bg-gradient-to-br from-[#383838] to-[#212121] shadow-md z-20"
+                >
+                    <IconRender iconName="RiArrowDropDownLine" className={`transition-transform duration-[500ms] text-2xl  ${isOpen ? "rotate-180" : ""} `}/>
+                </button>
             {/* 1. Header Section: Avatar, Name , Badge  */}
-            <div className="flex items-center gap-4 lg:flex-col lg:text-center relative">
+            <div className="flex lg:flex-col items-center lg:text-center gap-4 relative">
                 <figure className=" rounded-[20px] w-20 lg:w-36 flex items-center justify-center p-2 shadow-inner bg-gradient-to-br from-[#383838] to-[#212121]">
                     <img 
                         src={profile.AvtDarkImage} 
@@ -32,18 +40,10 @@ const Sidebar= ({profile, contacts})=>{
                         {profile.Badge}
                     </p>
                 </div>
-                {/* Nút Toggle chỉ hiện trên Mobile */}
-                <button
-                    onClick={()=> setIsOpen(!isOpen)}
-                    className="lg:hidden absolute top-[-20px] right-[-20px] text-[#ffdb70] border-l border-b border-[#383838] p-1 rounded-bl-2xl bg-gradient-to-br from-[#383838] to-[#212121] shadow-md z-20"
-                >
-                    <IconRender iconName="RiArrowDropDownLine" className={`transition-transform duration-300 text-2xl  ${isOpen ? "rotate-180" : ""} `}/>
-                </button>
-                
             </div>
             
             {/* 2. Contact Information */}
-            <div className={`transition-opacity duration-500 ${isOpen ? "opacity-100" : "opacity-0 lg:opacity-100"}`}>
+            <div className={`transition-opacity duration-700 delay-100 ${isOpen ? "opacity-100 translate-y-0 visible mt-8" : "opacity-0 -translate-y-8 invisible h-0 overflow-hidden lg:h-auto lg:opacity-100 lg:translate-y-0 lg:visible lg:mt-8"}`}>
                 <div className="h-[1px] bg-[#383838] my-8"/>
                     <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
                         {infoContacts?.map((contact)=>(
@@ -77,10 +77,10 @@ const Sidebar= ({profile, contacts})=>{
                     <ul className="flex justify-center items-center gap-4 text-xl pb-2">
                         {linkContacts?.map((contact)=>(
                             <li key={contact.Id} className="group relative hover:text-[#ffdb70] transition-colors">
-                                <a href={contact.Value} target="_blank" rel="noopener noreferrer" className=" hover:text-[#ffdb70] transition-colors">
+                                <a href={contact.Value} target="_blank" rel="noopener noreferrer" className=" text-gray-400 hover:text-[#ffdb70] transition-all duration-[500ms] ease-out hover:-translate-y-1 block">
                                     <IconRender iconName={contact.Icon} />
                                 </a>
-                                <p className="absolute bottom-full left-1/2 transform -translate-x-1/2 bg-[#2b2b2b] text-gray-200 text-xs font-light py-1 px-2 rounded pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
+                                <p className="absolute bottom-[25px] left-1/2 transform -translate-x-1/2 bg-[#2b2b2b] text-gray-200 text-xs font-light py-1 px-2 rounded pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
                                     {contact.Name}
                                 </p>
                             </li>
@@ -88,7 +88,6 @@ const Sidebar= ({profile, contacts})=>{
                     </ul>
                 </div>
         </aside>
-    );
-       
+    );     
 }
 export default Sidebar;
