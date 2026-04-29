@@ -7,7 +7,7 @@ const Navbar = ({ activeTab, setActiveTab }) => {
     <nav className="
       /* Layout cho Desktop */
       lg:absolute lg:top-0 lg:right-0 
-      lg:w-[400px] /* Cố định chiều rộng tại đây */
+      lg:w-[400px] 
       lg:h-16 
       lg:bg-[#2b2b2c] 
       lg:border-l lg:border-b lg:border-[#383838] 
@@ -16,7 +16,8 @@ const Navbar = ({ activeTab, setActiveTab }) => {
       /* Layout cho Mobile (Dính dưới đáy) */
       max-lg:fixed max-lg:bottom-0 max-lg:left-0 max-lg:w-full 
       max-lg:bg-[#2b2b2c]/90 max-lg:backdrop-blur-md max-lg:border-t
-      
+      max-lg:border-[#383838] max-lg:rounded-tl-[20px] max-lg:rounded-tr-[20px]
+      max-lg:p-2 max-lg:shadow-lg
       /* Chung */
       flex items-center justify-center z-20 shadow-md border-[#383838]
     ">
