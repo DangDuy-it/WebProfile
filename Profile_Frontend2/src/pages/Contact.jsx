@@ -70,34 +70,29 @@ const ContactForm=()=>{
     }
     
     return(
-        <section className="mt-10  ">
-
+        <section className="mt-10 w-full max-w-4xl mx-auto px-4 ">
             {/* PHẦN BẢN ĐỒ */}
-            <section className="mb-10 w-full overflow-hidden rounded-[20px] border border-[#333] shadow-lg">
-                <div className="relative w-full h-[300px] rounded-[20px] overflow-hidden border border-[#333] shadow-lg  group">
-                    <iframe
-                        title="Google Map"
-                        src={mapSrc}
-                        width="100%"
-                        height="100%"
-                        style={{ border: 0 }}
-                        allowFullScreen=""
-                        loading="lazy"
-                        // Hiệu ứng Dark Mode bằng CSS Filter để Portfolio trông Senior hơn
-                        className="grayscale invert opacity-70 contrast-125 transition-all duration-500 "
-                    ></iframe>
-                    
-                    {/* Nút hỗ trợ mở trực tiếp trong Google Maps App */}
-                    <a 
-                        href={`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="absolute bottom-4 right-4 bg-[#1e1e1f]/80 backdrop-blur-md text-[#ffdb70] px-4 py-2 rounded-lg text-sm border border-[#333] hover:bg-[#ffdb70] hover:text-black transition-all"
-                    >
-                        View on Google Maps
-                    </a>
-                </div>
-            </section>
+            <div className="mb-10 w-full relative h-[300px] rounded-[20px] overflow-hidden border border-[#333] shadow-lg group">
+                <iframe
+                    title="Google Map"
+                    src={mapSrc}
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen=""
+                    loading="lazy"
+                    className="grayscale invert opacity-70 contrast-125 transition-all duration-500 w-full h-full block"
+                ></iframe>
+                
+                <a 
+                    href={`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="absolute bottom-4 right-4 bg-[#1e1e1f]/80 backdrop-blur-md text-[#ffdb70] px-4 py-2 rounded-lg text-sm border border-[#333] hover:bg-[#ffdb70] hover:text-black transition-all z-10"
+                >
+                    View on Google Maps
+                </a>
+            </div>
 
             <h3 className="text-2xl font-bold mb-4">Contact Form</h3>
             <form ref={formRef} onSubmit={sendEmail} className="space-y-4">
@@ -109,7 +104,7 @@ const ContactForm=()=>{
                             name="firstName"
                             placeholder=" " 
                             required 
-                            className="peer w-full bg-[#1e1e1f] border border-[#333] text-white rounded-[15px] p-4 outline-none focus:border-[#ffdb70] transition-colors
+                            className="peer w-full bg-[#1e1e1f] box-border border border-[#333] text-white rounded-[15px] p-4 outline-none focus:border-[#ffdb70] transition-colors
                                         invalid:not-placeholder-shown:border-red-500 
                                         invalid:not-placeholder-shown:text-red-500
                         "/>
@@ -128,7 +123,7 @@ const ContactForm=()=>{
                             name="lastName"
                             placeholder=" " 
                             required 
-                            className="peer w-full bg-[#1e1e1f] border border-[#333] text-white rounded-[15px] p-4 outline-none focus:border-[#ffdb70] transition-colors
+                            className="peer w-full bg-[#1e1e1f] box-border border border-[#333] text-white rounded-[15px] p-4 outline-none focus:border-[#ffdb70] transition-colors
                                         invalid:not-placeholder-shown:border-red-500 
                                         invalid:not-placeholder-shown:text-red-500
                         "/>
@@ -149,7 +144,7 @@ const ContactForm=()=>{
                         name="email"
                         placeholder=" " 
                         required 
-                        className="peer w-full bg-[#1e1e1f] border border-[#333] text-white rounded-[15px] p-4 outline-none focus:border-[#ffdb70] transition-colors
+                        className="peer w-full bg-[#1e1e1f] box-border border border-[#333] text-white rounded-[15px] p-4 outline-none focus:border-[#ffdb70] transition-colors
                                     invalid:not-placeholder-shown:border-red-500 
                                     invalid:not-placeholder-shown:text-red-500
                     "/>
@@ -171,7 +166,7 @@ const ContactForm=()=>{
                         required 
                         onInput={autoResize}
                         rows={4}
-                        className="peer w-full bg-[#1e1e1f] border border-[#333] text-white rounded-[15px] p-2 outline-none focus:border-[#ffdb70] transition-colors resize-none h-24 overflow-hidden">
+                        className="peer w-full bg-[#1e1e1f] box-border border border-[#333] text-white rounded-[15px] p-2 outline-none focus:border-[#ffdb70] transition-colors resize-none h-24 overflow-hidden">
                     </textarea>
                     <label className="absolute left-4 top-4 text-gray-400 pointer-events-none transition-all
                         peer-focus:-top-2.5 peer-focus: left-3 peer-focus:text-sm peer-focus:text-[#ffdb70] peer-focus:bg-[#1e1e1f] peer-focus:px-1 peer-focus:rounded-sm

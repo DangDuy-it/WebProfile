@@ -58,7 +58,7 @@ function App() {
       bg-[#1e1e1f] border border-[#383838] rounded-[30px] min-h-[500px] shadow-lg">
         <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
         
-        <section className="p-6 lg:p-4 animate-fade-in text-white lg:min-h-[800px]">
+        <section className="p-6 lg:p-4 animate-fade-in text-white lg:min-h-[800px] ">
           <h2 className="text-3xl left-0 font-bold mb-6 relative pb-4 text-left 
           after:content-[''] after:absolute after:bottom-0 after:left-0 
           after:w-10 after:h-1 after:bg-[#ffdb70] after:rounded-full">
@@ -66,10 +66,12 @@ function App() {
           </h2>
           
           {/* Nội dung các trang sẽ viết tiếp ở đây */}
-          {activeTab === "About" && <About />}
-          {activeTab === "Resume" && <Resume />}
-          {activeTab === "Portfolio" && <Portfolio/>}
-          {activeTab === "Contact" && <Contact />}
+          <div className="w-full h-full">
+            {activeTab === "About" && <About />}
+            {activeTab === "Resume" && <Resume />}
+            {activeTab === "Portfolio" && <Portfolio/>}
+            {activeTab === "Contact" && <Contact />}
+          </div>
         </section>
       </div>
     </main>
