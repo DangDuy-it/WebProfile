@@ -1,13 +1,27 @@
-
+import { authServices } from '../services/authServices';
+import { useNavigate } from 'react-router-dom';
+import IconRender from '../constants/icons';
 
 const Navbar = ({ activeTab, setActiveTab }) => {
   const navItems = ["About", "Resume", "Portfolio", "Contact"];
+  const navigate = useNavigate();
+
+  const isLoggedIn = authServices.isLoggedIn();
+
+  const handleAdminClick = () =>{
+    if (isLoggedIn) {
+      navigate('/admin');
+    }else{
+        window.location.href = authServices.getGoogleAuthUrl();
+    }
+  }
 
   return (
     <nav className="
       /* Layout cho Desktop */
       lg:absolute lg:top-0 lg:right-0 
-      lg:w-[400px] 
+      lg:px-6
+      lg:min-w-[400px] 
       lg:h-16 
       lg:bg-[#2b2b2c] 
       lg:border-l lg:border-b lg:border-[#383838] 
@@ -34,6 +48,15 @@ const Navbar = ({ activeTab, setActiveTab }) => {
             </button>
           </li>
         ))}
+          <button className='group flex items-center gap-2 transition-all duration-300 ' 
+                  onClick={handleAdminClick}>
+            <span className='text-gray-400 group-hover:text-gray-100 transition-colors'>
+              {isLoggedIn ? <IconRender iconName="FaSignOutAlt" /> : <IconRender iconName="FaSignInAlt" /> }
+            </span>
+            <span className='text-[13px] lg:text-sm font-medium  overflow-hidden max-w-0 group-hover:max-w-[100px] transition-all duration-300  text-gray-400 group-hover:text-gray-100'>
+              {isLoggedIn ? "Logout" : "Login"}
+            </span>
+          </button>
       </ul>
     </nav>
   );

@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
-    "react-icons-picker": "^1.0.9"
+    "js-cookie": "^3.0.5",
+    "react-icons-picker": "^1.0.9",
+    "react-router-dom": "^7.14.2"
   }
 }
