@@ -2,12 +2,17 @@ import {useState, useRef} from "react";
 import emailjs from "@emailjs/browser";
 import IconRender from "../constants/icons";
 
+
 const ContactForm=()=>{
     const formRef= useRef();
     const messageRef= useRef();
     const [isSending, setIsSending]= useState(false);
     const [status, setStatus]= useState("");
 
+    const lat = import.meta.env.VITE_MAP_LAT ;
+    const lng = import.meta.env.VITE_MAP_LNG ;
+    const zoom = import.meta.env.VITE_MAP_ZOOM || 15;
+    const mapSrc = `https://maps.google.com/maps?q=${lat},${lng}&z=${zoom}&output=embed&t=m`;
 
     /* Auto-resize function for the message textarea:
     1. Set the height to "auto" to reset any previous height
@@ -69,27 +74,27 @@ const ContactForm=()=>{
 
             {/* PHẦN BẢN ĐỒ */}
             <section className="mb-10 w-full overflow-hidden rounded-[20px] border border-[#333] shadow-lg">
-                <div className="relative w-full h-[200px] md:h-[300px]">
+                <div className="relative w-full h-[300px] rounded-[20px] overflow-hidden border border-[#333] shadow-lg  group">
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.90123456789!2d106.699!3d10.776!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f3855555555%3A0x701c6f4b66666666!2zUFRJVEhDTQ!5e0!3m2!1svi!2svn!4v1234567890"
+                        title="Google Map"
+                        src={mapSrc}
                         width="100%"
                         height="100%"
                         style={{ border: 0 }}
                         allowFullScreen=""
                         loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                        title="Google Maps"
-                        /* Class này giúp bản đồ chuyển sang tông tối */
-                        className="grayscale invert opacity-70 contrast-125 hover:opacity-90 transition-opacity duration-500"
+                        // Hiệu ứng Dark Mode bằng CSS Filter để Portfolio trông Senior hơn
+                        className="grayscale invert opacity-70 contrast-125 transition-all duration-500 "
                     ></iframe>
                     
-                    {/* Nút "Open in Maps" trang trí giống mẫu */}
+                    {/* Nút hỗ trợ mở trực tiếp trong Google Maps App */}
                     <a 
-                        href="https://goo.gl/maps/xyz" 
-                        target="_blank" 
-                        className="absolute top-4 left-4 bg-[#1e1e1f]/80 backdrop-blur-md text-white px-4 py-2 rounded-lg text-sm border border-[#333] hover:text-[#ffdb70] transition-all"
+                        href={`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="absolute bottom-4 right-4 bg-[#1e1e1f]/80 backdrop-blur-md text-[#ffdb70] px-4 py-2 rounded-lg text-sm border border-[#333] hover:bg-[#ffdb70] hover:text-black transition-all"
                     >
-                        Open in Maps
+                        View on Google Maps
                     </a>
                 </div>
             </section>
