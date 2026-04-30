@@ -5,14 +5,17 @@ import About from "../../pages/About";
 import Resume from "../../pages/Resume";
 import Portfolio from "../../pages/Portfolio";
 import Contact from "../../pages/Contact";
+import IconRender from "../../constants/icons";
+import AudioPlayer from "../../hook/AudioPlayer";
 import { contactsServices } from "../../services/contactsServices";
 
 
-function MainLayout() {
+const MainLayout = () => {
   const [activeTab, setActiveTab] = useState('About');
   const [sidebarData, setSidebarData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [volume, setVolume, isNotPlaying] = AudioPlayer(sidebarData?.AvtLightImage);
 
   useEffect(()=>{
     const fetchContacts = async () => {
@@ -49,9 +52,11 @@ function MainLayout() {
           Title: sidebarData?.Title,
           Badge: sidebarData?.Badge,
           AvtDarkImage: sidebarData?.AvtDarkImage,
-          AvtLightImage: sidebarData?.AvtLightImage
+          AvtLightImage: sidebarData?.AvtLightImage //src audio
         }} 
         contacts={sidebarData?.ContactInfo} 
+        volume={volume}
+        setVolume={setVolume}
       />
       
       <div className="relative bg-[#1e1e1f] border border-[#383838] rounded-[30px] min-h-[500px] shadow-lg
@@ -76,6 +81,19 @@ function MainLayout() {
           </div>
         </section>
       </div>
+
+      {isNotPlaying && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm cursor-pointer transition-all duration-500">
+          <div className="text-center animate-bounce">
+            <div className="mb-4 flex justify-center text-[#ffdb70]">
+              <IconRender iconName="RiMousePointerLine" className="text-6xl" />
+            </div>
+            <h2 className="text-[#ffdb70] text-2xl font-bold tracking-widest uppercase">
+              Click to center...
+            </h2>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

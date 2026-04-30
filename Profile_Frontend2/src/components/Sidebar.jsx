@@ -1,9 +1,11 @@
 import {useState} from "react";
 import IconRender from "../constants/icons";
 
-const Sidebar= ({profile, contacts})=>{
+
+const Sidebar= ({profile, contacts, volume, setVolume})=>{
     // State quản lý việc đóng/mở Sidebar trên giao diện Mobile
     const [isOpen, setIsOpen] = useState(false);
+    // Hook custom để quản lý âm thanh nền ( AvtLightImage == src audio)
     // Nếu dữ liệu chưa kịp load từ App.jsx
     if (!profile) return null;
 
@@ -40,9 +42,35 @@ const Sidebar= ({profile, contacts})=>{
                 </div>
             </div>
             
-            {/* 2. Contact Information */}
-            <div className={`transition-opacity duration-700 delay-100 ${isOpen ? "opacity-100 translate-y-0 visible mt-8" : "opacity-0 -translate-y-8 invisible h-0 overflow-hidden lg:h-auto lg:opacity-100 lg:translate-y-0 lg:visible lg:mt-8"}`}>
-                <div className="h-[1px] bg-[#383838] my-8"/>
+            {/* 2. Phần điều khiển âm lượng */}
+            <div className="px-2 mt-4 relative group flex justify-center items-center gap-2">
+                <div className="flex items-center gap-2 ">
+                
+                    {/* Icon Loa: Thay đổi icon dựa trên mức âm lượng */}
+                    <div className="text-[#ffdb70] text-xl cursor-pointer ">
+                        <IconRender 
+                            iconName={volume === 0 ? "RiVolumeMuteFill" : volume < 0.5 ? "RiVolumeDownFill" : "RiVolumeUpFill"} 
+                        />
+                    </div>
+
+                    {/* Thanh Input: Ẩn mặc định, hiện khi group (thẻ cha) được hover */}
+                    <div className="w-0 items-center overflow-hidden opacity-0 transition-all duration-500 ease-in-out group-hover:w-full group-hover:opacity-100">
+                        <input 
+                            type="range" 
+                            min="0" 
+                            max="1" 
+                            step="0.01" 
+                            value={volume}
+                            onChange={(e) => setVolume(parseFloat(e.target.value))}
+                            className="w-full h-1 bg-[#383838] rounded-lg appearance-none cursor-pointer accent-[#ffdb70]"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            {/* 3. Contact Information */}
+            <div className={`transition-opacity duration-700 delay-100 ${isOpen ? "opacity-100 translate-y-0 visible mt-8" : "opacity-0 -translate-y-8 invisible h-0 overflow-hidden lg:h-auto lg:opacity-100 lg:translate-y-0 lg:visible "}`}>
+                <div className="h-[1px] bg-[#383838] my-4"/>
                     <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
                         {infoContacts?.map((contact)=>(
                             <li key={contact.Id} className="flex items-center gap-4 text-sm">
@@ -71,7 +99,7 @@ const Sidebar= ({profile, contacts})=>{
                     </ul>
                     
                     <div className="h-[1px] bg-[#383838] my-8" />
-                    {/* 3. Social Links */}
+                    {/* 4. Social Links */}
                     <ul className="flex justify-center items-center gap-4 text-xl pb-2">
                         {linkContacts?.map((contact)=>(
                             <li key={contact.Id} className="group relative hover:text-[#ffdb70] transition-colors">

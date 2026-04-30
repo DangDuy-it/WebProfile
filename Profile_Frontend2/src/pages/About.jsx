@@ -57,7 +57,7 @@ const About = () => {
             {/* Highlight */}
             <div className="text-start mb-6 w-full">
                 <h3 className="text-xl font-bold text-white mb-4">Quick Facts</h3>
-                <ul className="grid grid-cols-1 gap-4 text-gray-300 border-2 border-[#1e1e1f] p-4 rounded-lg bg-[#222224] shadow-md hover:bg-[#2a2a2c] hover:border-[#ffdb70] transition-colors duration-300">
+                <ul className="grid grid-cols-1 gap-4 text-sm text-gray-300 border-2 border-[#1e1e1f] p-4 rounded-lg bg-[#222224] shadow-md hover:bg-[#2a2a2c] hover:border-[#ffdb70] transition-colors duration-300">
                     {aboutInfo?.AboutHighlight?.map((item)=>(
                         <li key={item.Id} className="flex items-center text-gray-300 overflow-hidden">
                             <IconRender iconName={item.Icon} className="mr-2 text-[#ffdb70] text-xl flex-shrink-0" />
