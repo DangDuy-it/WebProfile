@@ -95,9 +95,10 @@ model Timeline {
 model AboutHighlight {
   Id         Int      @id @default(autoincrement())
   ProfileId  Int
-  University String?  @db.NVarChar(200)
-  Major      String?  @db.NVarChar(200)
-  Goal       String?  @db.NVarChar(Max)
+  Name       String?  @db.NVarChar(100)
+  Description String? @db.NVarChar(100)
+  Icon        String? @db.NVarChar(100)
+  OrderIndex  Int      @default(0)
   Profile    Profile  @relation(fields: [ProfileId], references: [Id], onDelete: Cascade)
 
   @@map("AboutHighlight")

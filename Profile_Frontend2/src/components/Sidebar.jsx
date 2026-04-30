@@ -10,8 +10,6 @@ const Sidebar= ({profile, contacts})=>{
     const infoContacts= contacts?.filter(contact=> contact.Category==="Info");
     const linkContacts= contacts?.filter(contact=> contact.Category==="Link");
 
-    
-
     return (
         <aside className={`sidebar bg-[#1e1e1f] border border-[#383838] rounded-[30px] p-5 shadow-lg mb-8 lg:sticky lg:top-14 lg:min-w-[280px] z-10 transition-all duration-[500ms] ease-in-out overflow-hidden relative ${
         isOpen ? "max-h-[1000px] p-8" : "max-h-[160px] lg:max-h-[1000px] lg:p-5"
@@ -55,11 +53,11 @@ const Sidebar= ({profile, contacts})=>{
                                     <p>{contact.Name}</p>    
                                     {/* Logic auto create link for Email and Phone */}
                                     {contact.Type ==="Email" ? (
-                                        <a href={`mailto:${contact.Value}`} className="text-gray-100 truncate block hover:text-blue-300 transition-colors">
+                                        <a href={`mailto:${contact.Value}`} className="text-gray-100 truncate block hover:text-[#ffdb70] transition-colors">
                                             {contact.Value}
                                         </a>
                                     ) : contact.Type ==="Phone" ? (
-                                        <a href={`tel:${contact.Value}`} className="text-gray-100 truncate block hover:text-blue-300 transition-colors">
+                                        <a href={`tel:${contact.Value}`} className="text-gray-100 truncate block hover:text-[#ffdb70] transition-colors">
                                             {contact.Value}
                                         </a>
                                     ) : (

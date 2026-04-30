@@ -70,7 +70,7 @@ const ContactForm=()=>{
     }
     
     return(
-        <section className="mt-10 w-full max-w-4xl mx-auto px-4 ">
+        <section className="mt-10 w-full">
             {/* PHẦN BẢN ĐỒ */}
             <div className="mb-10 w-full relative h-[300px] rounded-[20px] overflow-hidden border border-[#333] shadow-lg group">
                 <iframe

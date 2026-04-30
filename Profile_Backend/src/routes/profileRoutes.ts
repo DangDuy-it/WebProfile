@@ -1,13 +1,10 @@
 import { Router } from "express";
-import { getAboutData, getHomeData } from "../controllers/profileControllers";
+import { getAboutData } from "../controllers/profileControllers";
 
 const router= Router();
 
-// Route cho trang Home
-router.get('/home', getHomeData);
+// Route cho trang About
 router.get('/about', getAboutData);
 
-
-// Route cho trang About
 
 export default router;

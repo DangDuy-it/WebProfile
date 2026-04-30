@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../config/db";
 
-// Controller để lấy dữ liệu cho trang Contacts
+// Controller để lấy dữ liệu cho phần Sidebar 
 export const getContactData = async(req: Request, res: Response): Promise<void> => {
     try {
         const result = await prisma.profile.findFirst({

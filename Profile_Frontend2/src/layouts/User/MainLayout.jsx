@@ -53,13 +53,14 @@ function MainLayout() {
         }} 
         contacts={sidebarData?.ContactInfo} 
       />
-      {/* flex-1 relative bg-[#1e1e1f] border border-[#383838] rounded-[30px] min-h-[500px] */}
-      <div className="flex-1 relative 
-      min-lg:min-w-[700px] 
-      bg-[#1e1e1f] border border-[#383838] rounded-[30px] min-h-[500px] shadow-lg">
+      
+      <div className="relative bg-[#1e1e1f] border border-[#383838] rounded-[30px] min-h-[500px] shadow-lg
+                      max-w-[300px] 
+                      md:min-w-[650px] 
+                      lg:min-w-[700px]">
         <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
         
-        <section className="p-6 lg:p-4 animate-fade-in text-white lg:min-h-[800px] ">
+        <section className="p-6 lg:p-4 animate-fade-in text-white relative ">
           <h2 className="text-3xl left-0 font-bold mb-6 relative pb-4 text-left 
           after:content-[''] after:absolute after:bottom-0 after:left-0 
           after:w-10 after:h-1 after:bg-[#ffdb70] after:rounded-full">
