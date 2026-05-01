@@ -2,8 +2,8 @@
   "name": "portfolio-fullstack",
   "version": "1.0.0",
   "scripts": {
-    "dev": "concurrently \"cd Profile_Frontend2 && npm run dev\" \"cd Profile_Backend && npm run dev\"",
-    "dev:frontend": "npm run dev --prefix Profile_Frontend2",
+    "dev": "concurrently \"cd Profile_Frontend && npm run dev\" \"cd Profile_Backend && npm run dev\"",
+    "dev:frontend": "npm run dev --prefix Profile_Frontend",
     "dev:backend": "npm run dev --prefix Profile_Backend"
   },
   "devDependencies": {
