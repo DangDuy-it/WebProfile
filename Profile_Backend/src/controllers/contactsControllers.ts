@@ -9,7 +9,7 @@ export const getContactData = async(req: Request, res: Response): Promise<void> 
                 Title: true,
                 Badge: true,
                 AvtDarkImage: true,
-                AvtLightImage: true,
+                AudioUrl: true,
                 ContactInfo:{
                     where:{ IsVisible: true },
                     orderBy:{ Id: 'asc' },

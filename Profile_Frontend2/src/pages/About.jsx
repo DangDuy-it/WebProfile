@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { profileServices } from "../services/profileServices";
+import Loading from "../components/Loading";
+import Error from "../components/Error";
 import IconRender from "../constants/icons";
 
 
 const About = () => {
-    
     const [aboutInfo, setAboutInfo] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -38,12 +39,10 @@ const About = () => {
     }
 
     if (loading) return (
-        <div className="flex justify-center items-center min-h-[300px]">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#ffdb70]"></div>
-        </div>
+        <Loading />
     );
     
-    if (error) return <div className="text-red-500 p-5 text-center">Error: {error}</div>;
+    if (error) return <Error message={error} />;
     
     return (
         <section className="mt-10 w-full">

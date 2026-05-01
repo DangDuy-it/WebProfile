@@ -1,6 +1,8 @@
 import {useState, useEffect} from "react";
 import Sidebar from "../../components/Sidebar";
 import Navbar from "../../components/Navbar";
+import Loading from "../../components/Loading";
+import Error from "../../components/Error";
 import About from "../../pages/About";
 import Resume from "../../pages/Resume";
 import Portfolio from "../../pages/Portfolio";
@@ -11,11 +13,11 @@ import { contactsServices } from "../../services/contactsServices";
 
 
 const MainLayout = () => {
-  const [activeTab, setActiveTab] = useState('About');
+  const [activeTab, setActiveTab] = useState('Resume');
   const [sidebarData, setSidebarData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [volume, setVolume, isNotPlaying] = AudioPlayer(sidebarData?.AvtLightImage);
+  const [volume, setVolume, isNotPlaying] = AudioPlayer(sidebarData?.AudioUrl || ""); // Truyền AudioSrc từ sidebarData vào hook AudioPlayer
 
   useEffect(()=>{
     const fetchContacts = async () => {
@@ -32,12 +34,11 @@ const MainLayout = () => {
     fetchContacts();
   }, []);
 
-  if (loading) {
-    return <div className="text-[#ffdb70] text-center mt-20">Loading...</div>;
-  };
-  if (error) {
-    return <div className="text-red-500 text-center mt-20">Error: {error}</div>;
-  };
+    if (loading) return (
+        <Loading />
+    );
+    
+    if (error) return <Error message={error} />;
 
   return (
 
@@ -52,7 +53,7 @@ const MainLayout = () => {
           Title: sidebarData?.Title,
           Badge: sidebarData?.Badge,
           AvtDarkImage: sidebarData?.AvtDarkImage,
-          AvtLightImage: sidebarData?.AvtLightImage //src audio
+          AudioSrc: sidebarData?.AudioSrc
         }} 
         contacts={sidebarData?.ContactInfo} 
         volume={volume}
@@ -84,13 +85,13 @@ const MainLayout = () => {
 
       {isNotPlaying && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm cursor-pointer transition-all duration-500">
-          <div className="text-center animate-bounce">
-            <div className="mb-4 flex justify-center text-[#ffdb70]">
-              <IconRender iconName="RiMousePointerLine" className="text-6xl" />
-            </div>
-            <h2 className="text-[#ffdb70] text-2xl font-bold tracking-widest uppercase">
+          <div className="text-center animate-bounce ">
+            <h2 className="text-[#ffdb70] text-2xl font-bold tracking-widest uppercase mb-4">
               Click to center...
             </h2>
+            <div className="mb-4 flex justify-center text-[#ffdb70]">
+              <IconRender iconName="FaMousePointer" className="text-4xl" />
+            </div>
           </div>
         </div>
       )}

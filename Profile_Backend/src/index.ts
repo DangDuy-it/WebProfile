@@ -7,7 +7,7 @@ import session from 'express-session';
 
 import profileRoutes from './routes/profileRoutes';
 import contactsRoutes from './routes/contactsRoutes';
-import skillsRoutes from './routes/skillsRoutes';
+import resumeRoutes from './routes/resumeRoutes';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -35,7 +35,7 @@ app.use(passport.session());
 // Gắn routes
 app.use('/api', profileRoutes);
 app.use('/api', contactsRoutes);
-app.use('/api', skillsRoutes);
+app.use('/api', resumeRoutes);
 
 // Route Google login
 app.get('/api/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));

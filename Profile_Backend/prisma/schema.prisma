@@ -13,7 +13,7 @@ model Profile {
   Title          String?          @db.NVarChar(100)
   Description    String?          @db.NVarChar(Max)
   AvtDarkImage   String?          @db.NVarChar(500)
-  AvtLightImage  String?          @db.NVarChar(500)
+  AudioUrl       String?          @db.NVarChar(255)
   Intro          String?          @db.NVarChar(Max)
   Body           String?          @db.NVarChar(Max)
   CreatedAt      DateTime         @default(now())

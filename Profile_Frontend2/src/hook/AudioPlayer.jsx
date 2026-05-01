@@ -7,6 +7,7 @@ const AudioPlayer = (src) => {
 
 
     useEffect(()=>{
+        if(!src) return;
         const audio= audioRef.current;
         audio.src= src;
         audio.load();
