@@ -1,6 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
+import PaginationUI from "../components/PaginationUI";
+import ProjectCard from "../components/ProjectCard";
+import usePagination from "../hooks/usePagination";
 import IconRender from "../constants/icons";
 import { portfolioServices } from "../services/portfolioServices";
 
@@ -10,6 +13,15 @@ const Portfolio = () => {
     const [error, setError] = useState(null);
     const [activeCategory, setActiveCategory] = useState("All");
     const [isOpen, setIsOpen] = useState(false);
+    
+    
+    const filteredProjects = useMemo(() => {
+        if (!portfolioInfo) return [];
+        return activeCategory === "All" 
+        ? portfolioInfo 
+        : portfolioInfo.filter(item => item.Category === activeCategory);
+    }, [portfolioInfo, activeCategory]);
+    const { currentData, totalPages, currentPage, goToPage } = usePagination(filteredProjects || []);
 
     useEffect(()=>{
         const fetchPortfolioData= async()=>{
@@ -30,13 +42,7 @@ const Portfolio = () => {
 
     //Filter data by category
     const categories= ["All",...new Set(portfolioInfo?.map(item=> item.Category))];
-    const projectsByCategory= [
-        { category: "All", projects: portfolioInfo },
-        ...categories.map(category=> ({
-            category,
-            projects: portfolioInfo?.filter(item=> item.Category === category)
-        }))
-    ]
+
     const handleCategoryClick = (category) => {
         setActiveCategory(category);
         setIsOpen(false); 
@@ -80,45 +86,23 @@ const Portfolio = () => {
     
             {/* Project List */}
             <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                {projectsByCategory?.find(cat=>cat.category===activeCategory)?.projects.map((project)=>(
+                {/* {projectsByCategory?.find(cat=>cat.category===activeCategory)?.projects.map((project)=>(
+                    <ProjectCard key={project.Id} project={project} />
+                ))} */}
+                {currentData?.map((project)=>(
                     <ProjectCard key={project.Id} project={project} />
                 ))}
             </div>
+            {/* Hiển thị bộ nút phân trang */}
+            {totalPages > 1 && (
+                <PaginationUI 
+                    totalPages={totalPages} 
+                    currentPage={currentPage} 
+                    onPageChange={goToPage} 
+                />
+            )}
         </section>
     )
 }
 export default Portfolio;
 
-//Component con cho mỗi project
-const ProjectCard = ({project}) => {
-    return (
-        // Card Container
-        <div className="group rounded-lg overflow-hidden">
-            {/* Project Image */}
-            <div className="overflow-hidden relative rounded-lg">
-                <img 
-                    src={project.ImageUrl} 
-                    alt={project.Title} 
-                    className=" group-hover:opacity-50 group-hover:scale-110 transition-all duration-300 " 
-                />
-                <button className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 ">
-                    {/* Icon Container */}
-                    <div className="relative z-10 p-2 bg-[#383838] rounded-lg text-sm shadow-xl duration-300 transition-transform transform">
-                        <IconRender iconName="FaRegEye" className="text-[#ffdb70]" />
-                    </div>
-                    {/* Link to Demo/Github */}
-                    <a 
-                        href={project.LinkDemo || project.LinkGithub || "#"} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="absolute inset-0 z-20"
-                    ></a>
-                </button>
-            </div>
-            {/* Project Details */}
-            <h3 className="text-left p-2 text-gray-300 text-xs font-bold">{project.Title}</h3>
-            {/* <p>{project.Description}</p>
-            <p><strong>Category:</strong> {project.Category}</p> */}
-        </div>
-    );
-};

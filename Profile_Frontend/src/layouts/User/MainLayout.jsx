@@ -60,7 +60,7 @@ const MainLayout = () => {
         setVolume={setVolume}
       />
       
-      <div className="relative bg-[#1e1e1f] border border-[#383838] rounded-[30px] min-h-[500px] shadow-lg
+      <div className="relative bg-[#1e1e1f] border border-[#383838] rounded-[30px] min-h-[767px] shadow-lg
                       max-w-[300px] 
                       md:min-w-[650px] 
                       lg:min-w-[700px]">
