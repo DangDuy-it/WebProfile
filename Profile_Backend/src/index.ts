@@ -1,4 +1,5 @@
 // src/index.ts
+import cookieParser from 'cookie-parser';
 import express from 'express';
 import cors from 'cors';
 import { connectDB } from './config/db';
@@ -9,6 +10,7 @@ import profileRoutes from './routes/profileRoutes';
 import contactsRoutes from './routes/contactsRoutes';
 import resumeRoutes from './routes/resumeRoutes';
 import portfolioRouter from './routes/portfolioRoutes';
+import authRoutes from './routes/authRoutes';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -18,7 +20,7 @@ app.use(cors({
   credentials: true  // Cho phép gửi cookie cross-origin
 }));
 app.use(express.json());
-
+app.use(cookieParser());
 // Session config
 app.use(session({
   secret: process.env.SESSION_SECRET || 'your-session-secret-change-this',
@@ -38,40 +40,12 @@ app.use('/api', profileRoutes);
 app.use('/api', contactsRoutes);
 app.use('/api', resumeRoutes);
 app.use('/api', portfolioRouter);
+
 // Route Google login
-app.get('/api/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+app.use('/api/auth', authRoutes);
 
-app.get('/api/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: 'http://localhost:5173/login?error=auth_failed', session: false }),
-  (req, res) => {
-    const user = req.user as any;
-    if (!user || !user.token) {
-          // Redirect về trang login frontend với thông báo lỗi
-          const errorMessage = encodeURIComponent('Email không phải tài khoản admin. Vui lòng thử lại.');
-          return res.redirect(`http://localhost:5173/login?error=${errorMessage}`);
-        }
 
-    // Lưu token vào cookie (cho JS frontend đọc được)
-    res.cookie('adminToken', user.token, {
-      httpOnly: false,            // Cho phép JS đọc cookie
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',            // Cho phép redirect cross-origin
-      maxAge: 24 * 60 * 60 * 1000 // 1 ngày
-    });
 
-    // Redirect về /admin (không cần ?token= nữa)
-    res.redirect('http://localhost:5173/admin');
-  }
-);
-
-// // Route login (trang lỗi nếu đăng nhập thất bại)
-// app.get('/login', (req, res) => {
-//   res.send(`
-//     <h1>Đăng nhập thất bại</h1>
-//     <p>Chỉ tài khoản admin được phép. Vui lòng quay lại.</p>
-//     <a href="/">Về trang chủ</a>
-//   `);
-// });
 
 // Khởi động server
 app.listen(PORT, async () => {

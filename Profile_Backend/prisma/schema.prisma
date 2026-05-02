@@ -9,6 +9,8 @@ datasource db {
 
 model Profile {
   Id             Int              @id @default(autoincrement())
+  Email          String?          @unique @db.NVarChar(255)
+  Name           String?          @db.NVarChar(255)
   Badge          String?          @db.NVarChar(100)
   Title          String?          @db.NVarChar(100)
   Description    String?          @db.NVarChar(Max)

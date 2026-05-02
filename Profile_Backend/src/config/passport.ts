@@ -23,14 +23,33 @@ passport.use(
           return done(null, false, { message: 'Không lấy được email từ Google' });
         }
 
-        // Chỉ cho phép đúng 1 email admin
+        // 1. Kiểm tra xem có phải Admin không (Dùng biến .env của Duy)
         if (email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
           return done(null, false, { message: 'Email không phải admin' });
         }
 
-        // Tạo JWT token
+        // 2. Tìm Profile của Admin này trong DB để lấy Id
+        let adminProfile = await prisma.profile.findFirst({
+          where: { Email: email }
+        });
+
+        // 3. Nếu Duy chưa tạo Profile trong DB, hãy tạo luôn để lấy ID
+        if (!adminProfile) {
+            adminProfile = await prisma.profile.create({
+                data: {
+                    Email: email,
+                    Name: profile.displayName || 'Admin'
+                }
+            });
+        }
+
+        // 4. Ký Token với cái Id vừa tìm được
         const token = jwt.sign(
-          { email, name: profile.displayName || 'Admin' },
+          { 
+            Id: adminProfile.Id,
+            email: email, 
+            name: profile.displayName || 'Admin' 
+          },
           JWT_SECRET,
           { expiresIn: '24h' }
         );
