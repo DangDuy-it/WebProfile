@@ -31,8 +31,8 @@ const storage = multer.diskStorage({
  * Đảm bảo người dùng không upload "nhầm" file virus hoặc file không đúng định dạng.
  */
 const fileFilter= (req: Express.Request, file: Express.Multer.File, cb: multer.FileFilterCallback)=>{
-    // Chỉ chấp nhận file ảnh (jpg, jpeg, png, gif)
-    const allowedTypes= /jpeg|jpg|png|gif/;
+    // Chỉ chấp nhận file ảnh (jpg, jpeg, png, gif) hoặc âm thanh / video (mp3, wav, mp4)
+    const allowedTypes= /jpeg|jpg|png|gif|mp3|wav|mp4/;
     // Kiểm tra đuôi file và MIME type
     const extName= allowedTypes.test(path.extname(file.originalname).toLowerCase());
     // file.mimetype có dạng "image/jpeg", "image/png", ...
@@ -41,7 +41,7 @@ const fileFilter= (req: Express.Request, file: Express.Multer.File, cb: multer.F
     if(extName && mimeType){
         cb(null, true); // Chấp nhận file
     } else {
-        cb(new Error('Only images are allowed')); // Từ chối file và trả về lỗi
+        cb(new Error('Only images and audio files are allowed')); // Từ chối file và trả về lỗi
     }
 }
 /**
@@ -49,8 +49,10 @@ const fileFilter= (req: Express.Request, file: Express.Multer.File, cb: multer.F
  * Kết hợp cấu hình lưu trữ, bộ lọc và giới hạn dung lượng.
  */
 export const upload= multer({
-    storage: storage,
-    fileFilter: fileFilter,
-    limits: { fileSize: 5 * 1024 * 1024 } // Giới hạn dung lượng file là 5MB
+    storage,
+    fileFilter,
+    limits: {
+        fileSize: 50 * 1024 * 1024 // Giới hạn dung lượng file là 50MB
+    }
 })
 

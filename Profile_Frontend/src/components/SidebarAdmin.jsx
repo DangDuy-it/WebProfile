@@ -10,6 +10,7 @@ const SidebarAdmin = ({ profile, contacts, refreshData, volume, setVolume }) => 
 
     // Thêm State để lưu trữ file thật
     const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedAudio, setSelectedAudio] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(profile?.AvtDarkImage || "");
     
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,9 +18,9 @@ const SidebarAdmin = ({ profile, contacts, refreshData, volume, setVolume }) => 
         Title: profile?.Title || "",
         Badge: profile?.Badge || "",
         AvtDarkImage: profile?.AvtDarkImage || "",
-        AudioSrc: profile?.AudioSrc || ""
+        AudioUrl: profile?.AudioUrl || ""
     }); 
-    console.log(profile);
+ 
 
     // Hàm xử lý thay đổi form data cho phần Info
     const handleChangeInfo=(e)=>{
@@ -44,27 +45,20 @@ const SidebarAdmin = ({ profile, contacts, refreshData, volume, setVolume }) => 
             return () => URL.revokeObjectURL(objectUrl);
         }
     };
+    const handleAudioChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setSelectedAudio(file);
+            
+            // Tạo link preview tạm thời
+            const objectUrl = URL.createObjectURL(file);
+            
+ 
+            // Giải phóng bộ nhớ khi component unmount
+            return () => URL.revokeObjectURL(objectUrl);
+        }
 
-    // Hàm xử lý lưu thông tin profile
-    // const handleSubmitInfo= async (e)=>{
-    //     e.preventDefault();
-
-
-    //     if (!profile?.Id) {
-    //         alert("Không tìm thấy ID của profile!");
-    //         return;
-    //     }
-    //     try{
-    //         await contactsServices.updateProfileInfo(profile.Id, formDataInfo);
-    //         await refreshData();
-    //         setIsModalOpen(false);
-    //         alert("Cập nhật thông tin profile thành công!");
-    //     }catch(err){
-    //         console.error("Lỗi khi cập nhật thông tin profile:", err);
-    //         alert("Lỗi khi cập nhật thông tin profile!");
-    //     }
-    // }
-
+    };
 
     const handleSubmitInfo = async (e) => {
         e.preventDefault();
@@ -73,15 +67,15 @@ const SidebarAdmin = ({ profile, contacts, refreshData, volume, setVolume }) => 
         data.append('Title', formDataInfo.Title);
         data.append('Badge', formDataInfo.Badge);
         
-        // Nếu Duy có chọn file mới thì gửi file, không thì gửi link cũ
+        // Gửi ảnh với key 'avatar'
         if (selectedFile) {
             data.append('avatar', selectedFile); 
-        } else {
-            data.append('AvtDarkImage', formDataInfo.AvtDarkImage);
         }
         
-        // Tương tự cho Audio nếu Duy muốn upload file nhạc
-        // data.append('audio', selectedAudioFile);
+        // Gửi nhạc với key 'audio'
+        if (selectedAudio) {
+            data.append('audio', selectedAudio);
+        }
 
         try {
             // Gửi lên Backend - Lưu ý: Axios sẽ tự động set Content-Type là multipart/form-data
@@ -111,7 +105,7 @@ const SidebarAdmin = ({ profile, contacts, refreshData, volume, setVolume }) => 
                 : "";
             setPreviewUrl(fullUrl);
         }
-    }, [profile]);
+    }, [API_URL, profile]);
 
 
 
@@ -119,36 +113,6 @@ const SidebarAdmin = ({ profile, contacts, refreshData, volume, setVolume }) => 
     // Nếu dữ liệu chưa kịp load từ App.jsx
     if (!profile) return null;
     
-    // // 1. Xử lý xóa Contact
-    // const handleDelete = async (id) => {
-    //     if (!window.confirm("Duy có chắc chắn muốn xóa liên hệ này?")) return;
-    //     try {
-    //     await contactsServices.deleteContact(id);
-    //     await refreshData(); // Gọi hàm từ Layout để cập nhật UI ngay lập tức
-    //     } catch (err) {
-    //     alert("Lỗi khi xóa contact!");
-    //     }
-    // };
-
-    // // 2. Xử lý thêm nhanh (Mẫu)
-    // const handleAddQuick = async () => {
-    //     const newData = {
-    //     Type: "Social",
-    //     Name: "New Social",
-    //     Value: "https://example.com",
-    //     Icon: "FaLink",
-    //     Category: "Contact"
-    //     };
-    //     try {
-    //     setIsAdding(true);
-    //     await contactsServices.createContact(newData);
-    //     await refreshData(); // Cập nhật lại danh sách
-    //     } catch (err) {
-    //     alert("Lỗi khi thêm!");
-    //     } finally {
-    //     setIsAdding(false);
-    //     }
-    // };
 
     
 
@@ -156,6 +120,7 @@ const SidebarAdmin = ({ profile, contacts, refreshData, volume, setVolume }) => 
     const linkContacts= contacts?.filter(contact=> contact.Category==="Link");
 
   return (
+    <>
         <aside className={`sidebar bg-[#1e1e1f] border border-[#383838] rounded-[30px] p-5 shadow-lg mb-8 lg:sticky lg:top-14 lg:min-w-[280px] z-10 transition-all duration-[500ms] ease-in-out overflow-hidden relative ${
         isOpen ? "max-h-[1000px] p-8" : "max-h-[160px] lg:max-h-[1000px] lg:p-5"
         }`}>
@@ -221,100 +186,9 @@ const SidebarAdmin = ({ profile, contacts, refreshData, volume, setVolume }) => 
                     <p>Edit Profile</p>
                 </div>
             </button>
-            {/* Modal OverPlay */}
-            {/* Modal Overlay */}
-{isModalOpen && (
-  <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
     
-    {/* Form Container */}
-    <div className="bg-[#1e1e1f] border border-[#383838] rounded-[20px] w-full max-w-md p-6 shadow-2xl animate-fade-in">
-      
-      <div className="flex justify-between items-center mb-6">
-        <h3 className="text-white text-xl font-bold">Cập nhật thông tin</h3>
-        <button 
-          onClick={() => setIsModalOpen(false)}
-          className="text-gray-400 hover:text-white"
-        >
-          ✕
-        </button>
-      </div>
 
-      <form onSubmit={handleSubmitInfo} className="space-y-4">
-        
-        {/* Input Title */}
-        <div>
-          <label className="text-gray-400 text-xs uppercase mb-1 block">Họ và Tên</label>
-          <input 
-            type="text"
-            name="Title"
-            value={formDataInfo.Title}
-            onChange={handleChangeInfo}
-            className="w-full bg-[#2b2b2c] border border-[#383838] text-white p-3 rounded-xl focus:border-[#ffdb70] outline-none transition"
-            placeholder="Nhập tên hiển thị..."
-          />
-        </div>
-
-        {/* Input Badge */}
-        <div>
-          <label className="text-gray-400 text-xs uppercase mb-1 block">Danh hiệu / Vị trí</label>
-          <input 
-            type="text"
-            name="Badge"
-            value={formDataInfo.Badge}
-            onChange={handleChangeInfo}
-            className="w-full bg-[#2b2b2c] border border-[#383838] text-white p-3 rounded-xl focus:border-[#ffdb70] outline-none transition"
-            placeholder="VD: Software Engineer"
-          />
-        </div>
-
-        {/* Input Avatar Image URL */}
-        <div>
-        <label className="text-gray-400 text-xs uppercase mb-1 block">Ảnh đại diện</label>
-        <div className="flex items-center gap-4">
-            <img src={previewUrl}className="w-12 h-12 rounded-lg object-cover border border-[#383838]" />
-            <input 
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            className="text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-[#383838] file:text-[#ffdb70] hover:file:bg-[#454545]"
-            />
-        </div>
-        </div>
-
-        {/* Input Audio Source URL */}
-        <div>
-          <label className="text-gray-400 text-xs uppercase mb-1 block">Link nhạc nền (URL)</label>
-          <input 
-            type="text"
-            name="AudioSrc"
-            value={formDataInfo.AudioSrc}
-            onChange={handleChangeInfo}
-            className="w-full bg-[#2b2b2c] border border-[#383838] text-white p-3 rounded-xl focus:border-[#ffdb70] outline-none transition"
-            placeholder="https://..."
-          />
-        </div>
-
-        {/* Nút hành động */}
-        <div className="flex gap-3 pt-4">
-          <button 
-            type="button"
-            onClick={() => setIsModalOpen(false)}
-            className="flex-1 py-3 text-gray-400 hover:text-white transition"
-          >
-            Hủy bỏ
-          </button>
-          <button 
-            type="submit"
-            className="flex-1 bg-[#ffdb70] text-black font-bold py-3 rounded-xl hover:bg-[#ffe085] transition shadow-lg shadow-[#ffdb70]/10"
-          >
-            Lưu thay đổi
-          </button>
-        </div>
-
-      </form>
-    </div>
-  </div>
-)}
+            
             {/* 3. Contact Information */}
             <div className={`transition-opacity duration-700 delay-100 ${isOpen ? "opacity-100 translate-y-0 visible mt-8" : "opacity-0 -translate-y-8 invisible h-0 overflow-hidden lg:h-auto lg:opacity-100 lg:translate-y-0 lg:visible "}`}>
                 <div className="h-[1px] bg-[#383838] my-4"/>
@@ -361,6 +235,99 @@ const SidebarAdmin = ({ profile, contacts, refreshData, volume, setVolume }) => 
                     </ul>
                 </div>
         </aside>
+            {/* Modal Overlay */}
+            {isModalOpen && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+                
+                {/* Form Container */}
+                <div className="bg-[#1e1e1f] border border-[#383838] rounded-[20px] w-full max-w-md p-6 shadow-2xl animate-fade-in">
+                
+                <div className="flex justify-between items-center mb-6">
+                    <h3 className="text-white text-xl font-bold">Cập nhật thông tin</h3>
+                    <button 
+                        onClick={() => setIsModalOpen(false)}
+                        className="text-gray-400 hover:text-white"
+                        >
+                        ✕
+                    </button>
+                </div>
+
+                <form onSubmit={handleSubmitInfo} className="space-y-4">
+                    
+                    {/* Input Title */}
+                    <div>
+                    <label className="text-gray-400 text-xs uppercase mb-1 block">Họ và Tên</label>
+                    <input 
+                        type="text"
+                        name="Title"
+                        value={formDataInfo.Title}
+                        onChange={handleChangeInfo}
+                        className="w-full bg-[#2b2b2c] border border-[#383838] text-white p-3 rounded-xl focus:border-[#ffdb70] outline-none transition"
+                        placeholder="Nhập tên hiển thị..."
+                    />
+                    </div>
+
+                    {/* Input Badge */}
+                    <div>
+                    <label className="text-gray-400 text-xs uppercase mb-1 block">Danh hiệu / Vị trí</label>
+                    <input 
+                        type="text"
+                        name="Badge"
+                        value={formDataInfo.Badge}
+                        onChange={handleChangeInfo}
+                        className="w-full bg-[#2b2b2c] border border-[#383838] text-white p-3 rounded-xl focus:border-[#ffdb70] outline-none transition"
+                        placeholder="VD: Software Engineer"
+                    />
+                    </div>
+
+                    {/* Input Avatar Image URL */}
+                    <div>
+                    <label className="text-gray-400 text-xs uppercase mb-1 block">Ảnh đại diện</label>
+                    <div className="flex items-center gap-4">
+                        <img src={previewUrl}className="w-12 h-12 rounded-lg object-cover border border-[#383838]" />
+                        <input 
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        className="text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-[#383838] file:text-[#ffdb70] hover:file:bg-[#454545]"
+                        />
+                    </div>
+                    </div>
+
+                    {/* Input Audio Source URL */}
+                    <div>
+                    <label className="text-gray-400 text-xs uppercase mb-1 block">Link nhạc nền (URL)</label>
+                    <input 
+                        type="file"
+                        accept="audio/*,video/*,mp4/*"
+                        onChange={handleAudioChange}
+                        className="w-full bg-[#2b2b2c] border border-[#383838] text-white p-3 rounded-xl focus:border-[#ffdb70] outline-none transition"
+                        
+                    />
+                    </div>
+
+                    {/* Nút hành động */}
+                    <div className="flex gap-3 pt-4">
+                    <button 
+                        type="button"
+                        onClick={() => setIsModalOpen(false)}
+                        className="flex-1 py-3 text-gray-400 hover:text-white transition"
+                    >
+                        Hủy bỏ
+                    </button>
+                    <button 
+                        type="submit"
+                        className="flex-1 bg-[#ffdb70] text-black font-bold py-3 rounded-xl hover:bg-[#ffe085] transition shadow-lg shadow-[#ffdb70]/10"
+                    >
+                        Lưu thay đổi
+                    </button>
+                    </div>
+
+                </form>
+                </div>
+            </div>
+            )}
+    </>
     );  
 };
 

@@ -9,8 +9,8 @@ const router= Router();
 router.get('/contacts', getContactData);
 
 //Admin
-router.patch('/profile-info/:Id', upload.single('avatar'), authAdmin, updateInfo); 
-router.put('/contact', authAdmin, createContact); 
+router.patch('/profile-info/:Id', upload.fields([{ name: 'avatar', maxCount: 1 }, { name: 'audio', maxCount: 1 }]), authAdmin, updateInfo);
+router.put('/contact', authAdmin, createContact);
 router.delete('/contact/:Id', authAdmin, deleteContact);
 router.patch('/contact/:Id', authAdmin, updateContact);
 

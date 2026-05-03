@@ -14,21 +14,38 @@ const AudioPlayer = (src) => {
         audio.volume= volume;
         audio.loop =true;
 
-        //Trình duyệt chặn autoplay, cần phải có tương tác.
-        const startAudio = () => {
-            audio.play().then(() => {
-                setIsNotPlaying(false);
-            }).catch((err) => {
-                console.error("Lỗi phát nhạc:", err);
-            });
-        };
-        // Lắng nghe sự kiện click trên toàn bộ cửa sổ để bắt đầu phát nhạc
-        window.addEventListener("click", startAudio, { once: true });
+    const startAudio = () => {
+        // 1. Nếu volume bằng 0, dừng ngay lập tức
+        if (volume === 0) return;
+
+        // 2. Chỉ gọi play nếu audio đang bị tạm dừng (paused)
+        if (audio.paused) {
+            audio.play()
+                .then(() => {
+                    setIsNotPlaying(false);
+                })
+                .catch((err) => {
+                    // Chỉ log lỗi nếu không phải lỗi do bị gián đoạn (AbortError)
+                    if (err.name !== 'AbortError') {
+                        console.error("Lỗi phát nhạc:", err);
+                    }
+                });
+        }
+    };
+
+        // Nếu người dùng đã click trước đó (isNotPlaying đang là false), ta có thể thử play luôn
+        if (!isNotPlaying) {
+            startAudio();
+        } else {
+            // Trình duyệt chặn autoplay, cần phải có tương tác.
+            // Lắng nghe sự kiện click trên toàn bộ cửa sổ để bắt đầu phát nhạc
+            window.addEventListener("click", startAudio, { once: true });
+        }
+
         return ()=>{
             window.removeEventListener("click", startAudio);
-            
         };
-    },[src]);
+    },[src, isNotPlaying, volume]);
 
     
     useEffect(()=>{

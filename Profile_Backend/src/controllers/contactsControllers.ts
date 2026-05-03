@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../config/db";
 import fs from 'fs';
+import path from 'path';
 
 // Controller để lấy dữ liệu cho phần Sidebar 
 export const getContactData = async(req: Request, res: Response): Promise<void> => {
@@ -41,7 +42,6 @@ export const getContactData = async(req: Request, res: Response): Promise<void> 
 export const updateInfo= async(req: Request, res: Response): Promise<void> => {
     const user = (req as any).user;
     const {Id} = req.params;
-    let {Title, Badge, AvtDarkImage, AudioUrl} = req.body;
     
     // Kiểm tra quyền truy cập
     if(!user){
@@ -50,27 +50,37 @@ export const updateInfo= async(req: Request, res: Response): Promise<void> => {
     }
 
     try{
-        const oldProfile= await prisma.profile.findUnique({
-            where: { Id: Number(Id) },
-            select: { AvtDarkImage: true }
+        // Lấy thông tin ảnh cũ để xóa nếu có file mới được upload
+        const oldProfile = await prisma.profile.findUnique({
+            where: { Id: Number(Id) }
         });
-
-        if (req.file) {
-            // Nếu có file mới được upload, xóa file cũ nếu tồn tại
-            if(oldProfile && oldProfile.AvtDarkImage){
-                // Xóa file cũ khỏi server
-                const oldFilePath = `public${oldProfile.AvtDarkImage}`;
-                // Kiểm tra xem file có thực sự tồn tại trên ổ cứng không rồi mới xóa
-                if (fs.existsSync(oldFilePath)) {
-                    fs.unlink(oldFilePath, (err) => {
-                        if (err) console.error("Lỗi khi xóa file cũ:", err);
-                        else console.log("Đã xóa file cũ thành công:", oldFilePath);
-                    });
-                }
-
+        // Lấy file mới từ req.files (nếu có)
+        const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+        // Nếu client gửi file mới thì sẽ dùng file mới, nếu không thì giữ nguyên link cũ
+        let Title = req.body.Title ?? oldProfile?.Title;
+        let Badge = req.body.Badge ?? oldProfile?.Badge;
+        let AvtDarkImage = oldProfile?.AvtDarkImage; 
+        let AudioUrl = oldProfile?.AudioUrl;
+        // --- XỬ LÝ AVATAR ---
+        if (files?.avatar) {
+            const avatarFile = files.avatar[0];
+            // Xóa ảnh cũ
+            if (oldProfile?.AvtDarkImage) {
+                const oldPath = path.join(process.cwd(), 'public', oldProfile.AvtDarkImage);
+                if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
             }
-            // Cập nhật đường dẫn cho AvtDarkImage nếu có file upload
-            AvtDarkImage = `/uploads/${req.file.filename}`;
+            AvtDarkImage = `/uploads/${avatarFile.filename}`;
+        }
+
+        // --- XỬ LÝ AUDIO ---
+        if (files?.audio) {
+            const audioFile = files.audio[0];
+            // Xóa nhạc cũ
+            if (oldProfile?.AudioUrl) {
+                const oldAudioPath = path.join(process.cwd(), 'public', oldProfile.AudioUrl);
+                if (fs.existsSync(oldAudioPath)) fs.unlinkSync(oldAudioPath);
+            }
+            AudioUrl = `/uploads/${audioFile.filename}`;
         }
         const updatedInfo= await prisma.profile.update({
             where: { Id: Number(Id) },

@@ -17,7 +17,9 @@ const MainLayout = () => {
   const [sidebarData, setSidebarData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [volume, setVolume, isNotPlaying] = AudioPlayer(sidebarData?.AudioUrl || ""); // Truyền AudioSrc từ sidebarData vào hook AudioPlayer
+  const API_URL = import.meta.env.VITE_API_URL;
+  const audioSrc = sidebarData?.AudioUrl ? `${API_URL}${sidebarData.AudioUrl}` : "";
+  const [volume, setVolume, isNotPlaying] = AudioPlayer(audioSrc); // Truyền AudioSrc từ sidebarData vào hook AudioPlayer
 
   useEffect(()=>{
     const fetchContacts = async () => {
@@ -53,7 +55,7 @@ const MainLayout = () => {
           Title: sidebarData?.Title,
           Badge: sidebarData?.Badge,
           AvtDarkImage: sidebarData?.AvtDarkImage,
-          AudioSrc: sidebarData?.AudioUrl
+          AudioUrl: sidebarData?.AudioUrl
         }} 
         contacts={sidebarData?.ContactInfo} 
         volume={volume}
