@@ -4,8 +4,13 @@ import IconRender from '../constants/icons';
 
 
 const SidebarAdmin = ({ profile, contacts, refreshData, volume, setVolume }) => {
+    const API_URL = import.meta.env.VITE_API_URL ;
       // State quản lý việc đóng/mở Sidebar trên giao diện Mobile
     const [isOpen, setIsOpen] = useState(false);
+
+    // Thêm State để lưu trữ file thật
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [previewUrl, setPreviewUrl] = useState(profile?.AvtDarkImage || "");
     
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formDataInfo, setFormDataInfo]=useState({
@@ -24,37 +29,87 @@ const SidebarAdmin = ({ profile, contacts, refreshData, volume, setVolume }) => 
             [name]: value
         }))
     }
-    // Hàm xử lý lưu thông tin profile
-    const handleSubmitInfo= async (e)=>{
-        e.preventDefault();
-        // Log ra để kiểm tra xem Id và Data có chuẩn không
-        console.log("ID gửi đi:", profile?.Id);
-        console.log("Data gửi đi:", formDataInfo);
 
-        if (!profile?.Id) {
-            alert("Không tìm thấy ID của profile!");
-            return;
+    // 2. Khi chọn file mới từ máy tính
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setSelectedFile(file);
+            
+            // Tạo link preview tạm thời
+            const objectUrl = URL.createObjectURL(file);
+            setPreviewUrl(objectUrl); // Cập nhật ảnh hiển thị ngay lập tức
+            
+            // Giải phóng bộ nhớ khi component unmount
+            return () => URL.revokeObjectURL(objectUrl);
         }
-        try{
-            await contactsServices.updateProfileInfo(profile.Id, formDataInfo);
+    };
+
+    // Hàm xử lý lưu thông tin profile
+    // const handleSubmitInfo= async (e)=>{
+    //     e.preventDefault();
+
+
+    //     if (!profile?.Id) {
+    //         alert("Không tìm thấy ID của profile!");
+    //         return;
+    //     }
+    //     try{
+    //         await contactsServices.updateProfileInfo(profile.Id, formDataInfo);
+    //         await refreshData();
+    //         setIsModalOpen(false);
+    //         alert("Cập nhật thông tin profile thành công!");
+    //     }catch(err){
+    //         console.error("Lỗi khi cập nhật thông tin profile:", err);
+    //         alert("Lỗi khi cập nhật thông tin profile!");
+    //     }
+    // }
+
+
+    const handleSubmitInfo = async (e) => {
+        e.preventDefault();
+        
+        const data = new FormData();
+        data.append('Title', formDataInfo.Title);
+        data.append('Badge', formDataInfo.Badge);
+        
+        // Nếu Duy có chọn file mới thì gửi file, không thì gửi link cũ
+        if (selectedFile) {
+            data.append('avatar', selectedFile); 
+        } else {
+            data.append('AvtDarkImage', formDataInfo.AvtDarkImage);
+        }
+        
+        // Tương tự cho Audio nếu Duy muốn upload file nhạc
+        // data.append('audio', selectedAudioFile);
+
+        try {
+            // Gửi lên Backend - Lưu ý: Axios sẽ tự động set Content-Type là multipart/form-data
+            await contactsServices.updateProfileInfo(profile.Id, data);
             await refreshData();
             setIsModalOpen(false);
-            alert("Cập nhật thông tin profile thành công!");
-        }catch(err){
-            console.error("Lỗi khi cập nhật thông tin profile:", err);
-            alert("Lỗi khi cập nhật thông tin profile!");
+            alert("Cập nhật thành công!");
+        // eslint-disable-next-line no-unused-vars
+        } catch (err) {
+            alert("Lỗi khi upload file!");
         }
-    }
+    };
     //Mỗi khi biến profile từ props thay đổi, cập nhật lại formDataInfo
     useEffect(() => {
         if (profile) {
-            // eslint-disable-next-line react-hooks/set-state-in-effect
-            setFormDataInfo({
+            const initialData = {
                 Title: profile.Title || "",
                 Badge: profile.Badge || "",
                 AvtDarkImage: profile.AvtDarkImage || "",
-                AudioSrc: profile.AudioSrc || ""
-            });
+                AudioUrl: profile.AudioUrl || ""
+            };
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setFormDataInfo(initialData);
+            
+            const fullUrl = profile.AvtDarkImage 
+                ? `${API_URL}${profile.AvtDarkImage}` 
+                : "";
+            setPreviewUrl(fullUrl);
         }
     }, [profile]);
 
@@ -115,7 +170,7 @@ const SidebarAdmin = ({ profile, contacts, refreshData, volume, setVolume }) => 
             <div className="flex lg:flex-col items-center lg:text-center gap-4 relative">
                 <figure className=" rounded-[20px] w-20 lg:w-36 flex items-center justify-center p-2 shadow-inner bg-gradient-to-br from-[#383838] to-[#212121]">
                     <img 
-                        src={profile.AvtDarkImage} 
+                        src={`${API_URL}${profile.AvtDarkImage}`}
                         alt={profile.Name} 
                         className="w-full rounded-xl object-cover aspect-square"
                         />
@@ -214,15 +269,16 @@ const SidebarAdmin = ({ profile, contacts, refreshData, volume, setVolume }) => 
 
         {/* Input Avatar Image URL */}
         <div>
-          <label className="text-gray-400 text-xs uppercase mb-1 block">Link ảnh đại diện (URL)</label>
-          <input 
-            type="text"
-            name="AvtDarkImage"
-            value={formDataInfo.AvtDarkImage}
-            onChange={handleChangeInfo}
-            className="w-full bg-[#2b2b2c] border border-[#383838] text-white p-3 rounded-xl focus:border-[#ffdb70] outline-none transition"
-            placeholder="https://..."
-          />
+        <label className="text-gray-400 text-xs uppercase mb-1 block">Ảnh đại diện</label>
+        <div className="flex items-center gap-4">
+            <img src={previewUrl}className="w-12 h-12 rounded-lg object-cover border border-[#383838]" />
+            <input 
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-[#383838] file:text-[#ffdb70] hover:file:bg-[#454545]"
+            />
+        </div>
         </div>
 
         {/* Input Audio Source URL */}

@@ -3,6 +3,7 @@ import IconRender from "../constants/icons";
 
 
 const Sidebar= ({profile, contacts, volume, setVolume})=>{
+    const API_URL = import.meta.env.VITE_API_URL ;
     // State quản lý việc đóng/mở Sidebar trên giao diện Mobile
     const [isOpen, setIsOpen] = useState(false);
     // Hook custom để quản lý âm thanh nền ( AvtLightImage == src audio)
@@ -27,7 +28,7 @@ const Sidebar= ({profile, contacts, volume, setVolume})=>{
             <div className="flex lg:flex-col items-center lg:text-center gap-4 relative">
                 <figure className=" rounded-[20px] w-20 lg:w-36 flex items-center justify-center p-2 shadow-inner bg-gradient-to-br from-[#383838] to-[#212121]">
                     <img 
-                        src={profile.AvtDarkImage} 
+                        src={`${API_URL}${profile.AvtDarkImage}`}
                         alt={profile.Name} 
                         className="w-full rounded-xl object-cover aspect-square"
                         />

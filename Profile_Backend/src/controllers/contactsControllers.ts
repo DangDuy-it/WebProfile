@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../config/db";
+import fs from 'fs';
 
 // Controller để lấy dữ liệu cho phần Sidebar 
 export const getContactData = async(req: Request, res: Response): Promise<void> => {
@@ -40,7 +41,8 @@ export const getContactData = async(req: Request, res: Response): Promise<void> 
 export const updateInfo= async(req: Request, res: Response): Promise<void> => {
     const user = (req as any).user;
     const {Id} = req.params;
-    const {Title, Badge, AvtDarkImage, AudioUrl} = req.body;
+    let {Title, Badge, AvtDarkImage, AudioUrl} = req.body;
+    
     // Kiểm tra quyền truy cập
     if(!user){
         res.status(401).json({ error: 'Unauthorized' });
@@ -48,6 +50,28 @@ export const updateInfo= async(req: Request, res: Response): Promise<void> => {
     }
 
     try{
+        const oldProfile= await prisma.profile.findUnique({
+            where: { Id: Number(Id) },
+            select: { AvtDarkImage: true }
+        });
+
+        if (req.file) {
+            // Nếu có file mới được upload, xóa file cũ nếu tồn tại
+            if(oldProfile && oldProfile.AvtDarkImage){
+                // Xóa file cũ khỏi server
+                const oldFilePath = `public${oldProfile.AvtDarkImage}`;
+                // Kiểm tra xem file có thực sự tồn tại trên ổ cứng không rồi mới xóa
+                if (fs.existsSync(oldFilePath)) {
+                    fs.unlink(oldFilePath, (err) => {
+                        if (err) console.error("Lỗi khi xóa file cũ:", err);
+                        else console.log("Đã xóa file cũ thành công:", oldFilePath);
+                    });
+                }
+
+            }
+            // Cập nhật đường dẫn cho AvtDarkImage nếu có file upload
+            AvtDarkImage = `/uploads/${req.file.filename}`;
+        }
         const updatedInfo= await prisma.profile.update({
             where: { Id: Number(Id) },
             data:{
