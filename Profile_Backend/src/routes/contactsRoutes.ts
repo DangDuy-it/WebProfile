@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authAdmin } from "../middleware/authAdmin";
-import { getContactData, updateInfo, createContact, deleteContact } from "../controllers/contactsControllers";
+import { getContactData, updateInfo, createContact, deleteContact, updateContact } from "../controllers/contactsControllers";
 
 const router= Router();
 
@@ -9,9 +9,9 @@ router.get('/contacts', getContactData);
 
 //Admin
 router.patch('/profile-info/:Id', authAdmin, updateInfo); 
-router.put('/contact', authAdmin, createContact); // Tạo mới hoặc cập nhật contact tùy vào Id có tồn tại hay không
+router.put('/contact', authAdmin, createContact); 
 router.delete('/contact/:Id', authAdmin, deleteContact);
-
+router.patch('/contact/:Id', authAdmin, updateContact);
 
 
 export default router;

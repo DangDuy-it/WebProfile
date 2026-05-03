@@ -1,7 +1,8 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import Admin from "./pages/Admin";
+// import Admin from "./pages/Admin";
 import MainLayout from "./layouts/User/MainLayout";
+import AdminLayout from "./layouts/Admin/AdminLayout";
 import LoginError from "./pages/LoginError";
 import { authServices } from "./services/authServices";
 
@@ -27,7 +28,7 @@ function App() {
         path="/admin" 
         element={
           <RequireAuth>
-            <Admin />
+            <AdminLayout />
           </RequireAuth>
         } 
       />

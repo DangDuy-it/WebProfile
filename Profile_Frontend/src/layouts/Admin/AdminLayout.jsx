@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react";
-import Sidebar from "../../components/Sidebar";
+import SidebarAdmin from "../../components/SidebarAdmin";
 import Navbar from "../../components/Navbar";
 import Loading from "../../components/Loading";
 import Error from "../../components/Error";
@@ -12,27 +12,28 @@ import AudioPlayer from "../../hooks/AudioPlayer";
 import { contactsServices } from "../../services/contactsServices";
 
 
-const MainLayout = () => {
+const AdminLayout = () => {
   const [activeTab, setActiveTab] = useState('About');
   const [sidebarData, setSidebarData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [volume, setVolume, isNotPlaying] = AudioPlayer(sidebarData?.AudioUrl || ""); // Truyền AudioSrc từ sidebarData vào hook AudioPlayer
 
-  useEffect(()=>{
     const fetchContacts = async () => {
-      try{
-        const data= await contactsServices.getContacts();
-        setSidebarData(data);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
+        try{
+            const data= await contactsServices.getContacts();
+            setSidebarData(data);
+            setLoading(false);
+        } catch (err) {
+            setError(err.message);
+            setLoading(false);
+        }
     };
-
-    fetchContacts();
-  }, []);
+   
+    useEffect(()=>{
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        fetchContacts();
+    }, []);
 
     if (loading) return (
         <Loading />
@@ -48,14 +49,16 @@ const MainLayout = () => {
           - profile: Lấy các thuộc tính Title, Badge, AvtDarkImage từ object gốc
           - contacts: Lấy mảng ContactInfo lồng bên trong
       */}
-      <Sidebar 
+      <SidebarAdmin 
         profile={{
+            Id: sidebarData?.Id,
           Title: sidebarData?.Title,
           Badge: sidebarData?.Badge,
           AvtDarkImage: sidebarData?.AvtDarkImage,
           AudioSrc: sidebarData?.AudioUrl
         }} 
         contacts={sidebarData?.ContactInfo} 
+        refreshData={fetchContacts}
         volume={volume}
         setVolume={setVolume}
       />
@@ -99,4 +102,4 @@ const MainLayout = () => {
   );
 }
 
-export default MainLayout;
+export default AdminLayout;

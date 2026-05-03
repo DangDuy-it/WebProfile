@@ -6,6 +6,7 @@ export const getContactData = async(req: Request, res: Response): Promise<void> 
     try {
         const result = await prisma.profile.findFirst({
             select:{
+                Id: true,
                 Title: true,
                 Badge: true,
                 AvtDarkImage: true,
@@ -40,11 +41,12 @@ export const updateInfo= async(req: Request, res: Response): Promise<void> => {
     const user = (req as any).user;
     const {Id} = req.params;
     const {Title, Badge, AvtDarkImage, AudioUrl} = req.body;
-
+    // Kiểm tra quyền truy cập
     if(!user){
         res.status(401).json({ error: 'Unauthorized' });
         return;
     }
+
     try{
         const updatedInfo= await prisma.profile.update({
             where: { Id: Number(Id) },
@@ -53,9 +55,14 @@ export const updateInfo= async(req: Request, res: Response): Promise<void> => {
                 Badge,
                 AvtDarkImage,
                 AudioUrl,
-
             }
         });
+        // Nếu không tìm thấy profile nào với Id đã cho, trả về lỗi 404
+        if(!updatedInfo){
+            res.status(400).json({ error: 'Failed to update profile information' });
+            return;
+        }
+        // Cập nhật thành công, trả về dữ liệu đã cập nhật
         res.status(200).json({
             message: 'Profile information updated successfully',
             data: {
@@ -65,11 +72,8 @@ export const updateInfo= async(req: Request, res: Response): Promise<void> => {
                 AudioUrl: updatedInfo.AudioUrl
             }
         });
-    }catch(err: any){
-        if (err.code === 'P2025') {
-            res.status(404).json({ error: 'Profile not found' });
-            return;
-        }
+    }catch(err){
+        // Log lỗi chi tiết để dễ dàng debug
         console.error('Error updating data:', err);
         res.status(500).json({ error: 'Internal Server Error' });
     }
@@ -126,25 +130,27 @@ export const createContact =async (req: Request, res: Response): Promise<void> =
 export const deleteContact= async(req: Request, res: Response): Promise<void> => {
     const user = (req as any).user; // token payload { email, name }
     const {Id} = req.params;
-    
+    // Kiểm tra quyền truy cập
     if(!user){
         res.status(401).json({ error: 'Unauthorized' });
         return;
     }
-
+    // Lấy profileId từ token
     const currentProfileId = Number(user.Id || user.id);
     try{
-        
-        const deletedContact= await prisma.contactInfo.delete({
+        // Dùng deleteMany để lọc theo cả Id và ProfileId, đảm bảo chỉ xóa contact của profile hiện tại
+        // deleteMany trả về số lượng bản ghi đã xóa, nếu count là 0 nghĩa là không tìm thấy contact nào phù hợp với Id và ProfileId
+        const deletedContact= await prisma.contactInfo.deleteMany({
             where: { Id: Number(Id), ProfileId: currentProfileId }
         });
-        if(!deletedContact){
+        // Nếu không có bản ghi nào bị xóa, trả về lỗi 404
+        if(deletedContact.count === 0){
             res.status(404).json({ error: 'Contact not found' });
             return;
         }
+        // Xóa thành công, trả về thông báo thành công
         res.status(200).json({
             message: 'Contact deleted successfully',
-            // data: deletedContact
         });
     } catch(err) {
         console.error('Error deleting contact:', err);
@@ -154,17 +160,47 @@ export const deleteContact= async(req: Request, res: Response): Promise<void> =>
 
 
 // Update contact SocialInfo & link
-// export const updateContact = async(req: Request, res: Response): Promise<void> => {
-//     const user = (req as any).user; // token payload { email, name }
-//     const {Id} = req.params;
-//     const {Type, Name, Value, Icon, Category} = req.body;
+export const updateContact = async(req: Request, res: Response): Promise<void> => {
+    const user = (req as any).user; // token payload { email, name }
+    const {Id} = req.params;
+    const {Type, Name, Value, Icon, Category} = req.body;
     
-//     if(!user){
-//         res.status(401).json({ error: 'Unauthorized' });
-//         return;
-//     }
-//     if(!Type || !Name || !Value || !Icon || !Category){
-//         res.status(400).json({ error: 'Missing required fields' });
-//         return;
-//     }
-// }
+    // Kiểm tra quyền truy cập
+    if(!user){
+        res.status(401).json({ error: 'Unauthorized' });
+        return;
+    }
+    
+    // Lấy profileId từ token
+    const currentProfileId = Number(user.Id || user.id);
+
+    try{
+        // Dùng updateMany để lọc theo cả Id và ProfileId, đảm bảo chỉ cập nhật contact của profile hiện tại
+        // updateMany trả về số lượng bản ghi đã cập nhật, nếu count là 0 nghĩa là không tìm thấy contact nào phù hợp với Id và ProfileId
+        const updatedContact = await prisma.contactInfo.updateMany({
+            where: { Id: Number(Id), ProfileId: currentProfileId },
+            data: { Type, Name, Value, Icon, Category }
+        });
+        // Nếu không có bản ghi nào được cập nhật, trả về lỗi 404
+        if (updatedContact.count === 0) {
+            res.status(404).json({ error: "Not found" });
+            return;
+        }
+        // Cập nhật thành công, trả về dữ liệu đã cập nhật          
+        res.status(200).json({
+            message: 'Updated successfully',
+            data: {
+                Id: Number(Id), 
+                Type,           
+                Name,           
+                Value,          
+                Icon,          
+                Category        
+            }
+        });
+    } catch(err) {
+        // Log lỗi chi tiết để dễ dàng debug
+        console.error('Error updating contact:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
