@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { contactsServices } from '../services/contactsServices';
 import IconRender from '../constants/icons';
 
-const ModalInfo = ({ profile, isModalOpen, setIsModalOpen, refreshData }) => {
+const FormInfo = ({ profile, isModalOpen, setIsModalOpen, refreshData }) => {
     const API_URL = import.meta.env.VITE_API_URL;
 
     // ... trong component của bạn
@@ -253,4 +253,4 @@ const ModalInfo = ({ profile, isModalOpen, setIsModalOpen, refreshData }) => {
     );
 };
 
-export default ModalInfo;
+export default FormInfo;
