@@ -1,19 +1,41 @@
 import { authServices } from '../services/authServices';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import IconRender from '../constants/icons';
 
 const Navbar = ({ activeTab, setActiveTab }) => {
   const navItems = ["About", "Resume", "Portfolio", "Contact"];
   const navigate = useNavigate();
+  const location = useLocation();
 
   const isLoggedIn = authServices.isLoggedIn();
+  const isAdminPage = location.pathname === '/admin';
 
   const handleAdminClick = () =>{
-    if (isLoggedIn) {
-      navigate('/admin');
-    }else{
+    if (isAdminPage) {
+      if (isLoggedIn) {
+        authServices.logout();
+      }
+    } else {
+      if (isLoggedIn) {
+        navigate('/admin');
+      } else {
         window.location.href = authServices.getGoogleAuthUrl();
+      }
     }
+  }
+
+  const renderAuthIcon = () => {
+    if (isAdminPage) {
+      return <IconRender iconName="FaSignOutAlt" />;
+    }
+    return isLoggedIn ? <IconRender iconName="FaUserCog" /> : <IconRender iconName="FaSignInAlt" />;
+  }
+
+  const renderAuthText = () => {
+    if (isAdminPage) {
+      return "Logout";
+    }
+    return isLoggedIn ? "Admin" : "Login";
   }
 
   return (
@@ -51,10 +73,10 @@ const Navbar = ({ activeTab, setActiveTab }) => {
           <button className='group flex items-center gap-2 transition-all duration-300 ' 
                   onClick={handleAdminClick}>
             <span className='text-gray-400 group-hover:text-gray-100 transition-colors'>
-              {isLoggedIn ? <IconRender iconName="FaSignOutAlt" /> : <IconRender iconName="FaSignInAlt" /> }
+              {renderAuthIcon()}
             </span>
             <span className='text-[13px] lg:text-sm font-medium  overflow-hidden max-w-0 group-hover:max-w-[100px] transition-all duration-300  text-gray-400 group-hover:text-gray-100'>
-              {isLoggedIn ? "Logout" : "Login"}
+              {renderAuthText()}
             </span>
           </button>
       </ul>
