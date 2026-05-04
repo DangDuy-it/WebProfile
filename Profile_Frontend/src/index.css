@@ -76,6 +76,13 @@ body {
         opacity: 1;
     }
 }
+@keyframes waveform {
+  0%, 100% { transform: scaleY(0.5); }
+  50% { transform: scaleY(1.5); }
+}
+.animate-waveform {
+  animation: waveform 1s ease-in-out infinite;
+}
 
 .animate-slide-in {
     animation: slideIn 0.5s ease-out forwards;
