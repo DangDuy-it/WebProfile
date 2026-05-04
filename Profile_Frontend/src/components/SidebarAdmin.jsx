@@ -122,11 +122,11 @@ const SidebarAdmin = ({ profile, contacts, refreshData, volume, setVolume }) => 
                                 <IconRender iconName="FaUserEdit" className="text-lg" />
                             </button>
                             
-                            {/* Tooltip Nâng Cao */}
-                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 px-2 py-1.5 bg-[#1e1e1f] border border-[#383838] text-[#ffdb70] text-[10px] font-medium rounded-md shadow-xl opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-200 pointer-events-none whitespace-nowrap">
+                            
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 bg-[#1e1e1f] border border-[#383838] text-[#ffdb70] text-[10px] font-medium rounded-md shadow-xl opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-200 pointer-events-none whitespace-nowrap">
                                 Edit Profile
-                                {/* Mũi tên tooltip */}
                                 <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[#383838]"></div>
+                               
                             </div>
                         </div>
 
@@ -142,8 +142,8 @@ const SidebarAdmin = ({ profile, contacts, refreshData, volume, setVolume }) => 
                                 <IconRender iconName="RiAddBoxLine" className="text-xl" />
                             </button>
 
-                            {/* Tooltip Nâng Cao */}
-                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 px-2 py-1.5 bg-[#1e1e1f] border border-[#383838] text-[#ffdb70] text-[10px] font-medium rounded-md shadow-xl opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-200 pointer-events-none whitespace-nowrap">
+                            
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 bg-[#1e1e1f] border border-[#383838] text-[#ffdb70] text-[10px] font-medium rounded-md shadow-xl opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-200 pointer-events-none whitespace-nowrap">
                                 Add Contact
                                 <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[#383838]"></div>
                             </div>
