@@ -6,6 +6,7 @@ export const getAboutData= async(req: Request, res: Response): Promise<void> => 
     try{
         const result= await prisma.profile.findFirst({
             select:{
+                Id: true,
                 Description: true,
                 Intro: true,
                 Body: true,

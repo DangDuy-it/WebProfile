@@ -5,7 +5,6 @@ import IconRender from '../constants/icons';
 const FormInfo = ({ profile, isModalOpen, setIsModalOpen, refreshData }) => {
     const API_URL = import.meta.env.VITE_API_URL;
 
-    // ... trong component của bạn
     const fileInputRef = useRef(null);
     const audioInputRef = useRef(null);
     const handleImageClick = () => {
@@ -102,7 +101,7 @@ const FormInfo = ({ profile, isModalOpen, setIsModalOpen, refreshData }) => {
         }
 
         try {
-            await contactsServices.updateProfileInfo(profile.Id, data);
+            await contactsServices.updateProfileInfo(profile?.Id, data);
             await refreshData();
             handleClose(); // Đóng modal và reset trạng thái
             alert("Cập nhật thành công!");

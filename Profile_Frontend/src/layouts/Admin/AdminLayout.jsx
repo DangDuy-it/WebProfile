@@ -3,7 +3,7 @@ import SidebarAdmin from "../../components/SidebarAdmin";
 import Navbar from "../../components/Navbar";
 import Loading from "../../components/Loading";
 import Error from "../../components/Error";
-import About from "../../pages/About";
+import AdminAbout from "../../pages/AdminAbout";
 import Resume from "../../pages/Resume";
 import Portfolio from "../../pages/Portfolio";
 import Contact from "../../pages/Contact";
@@ -80,7 +80,7 @@ const AdminLayout = () => {
           
           {/* Nội dung các trang sẽ viết tiếp ở đây */}
           <div className="w-full h-full">
-            {activeTab === "About" && <About />}
+            {activeTab === "About" && <AdminAbout />}
             {activeTab === "Resume" && <Resume />}
             {activeTab === "Portfolio" && <Portfolio/>}
             {activeTab === "Contact" && <Contact />}
