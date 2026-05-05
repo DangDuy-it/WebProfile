@@ -74,7 +74,7 @@ const Sidebar= ({profile, contacts, volume, setVolume})=>{
 
             {/* 3. Contact Information */}
             <div className={`transition-opacity duration-700 delay-100 ${isOpen ? "opacity-100 translate-y-0 visible mt-8" : "opacity-0 -translate-y-8 invisible h-0 overflow-hidden lg:h-auto lg:opacity-100 lg:translate-y-0 lg:visible "}`}>
-                <div className="h-[1px] bg-[#383838] my-4"/>
+                 <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent via-[#383838] to-transparent my-4"></div>
                     <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
                         {infoContacts?.map((contact)=>(
                             <li key={contact.Id} className="flex items-center gap-4 text-sm">
@@ -102,7 +102,7 @@ const Sidebar= ({profile, contacts, volume, setVolume})=>{
                         ))}
                     </ul>
                     
-                    <div className="h-[1px] bg-[#383838] my-8" />
+                    <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent via-[#383838] to-transparent my-4"></div>
                     {/* 4. Social Links */}
                     <ul className="flex justify-center items-center gap-4 text-xl pb-2">
                         {linkContacts?.map((contact)=>(

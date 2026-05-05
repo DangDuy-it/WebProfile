@@ -51,7 +51,7 @@ const SidebarAdmin = ({ profile, contacts, refreshData, volume, setVolume }) => 
     return (
     <>
         <aside className={`sidebar bg-[#1e1e1f] border border-[#383838] rounded-[30px] p-5 shadow-lg mb-8 lg:sticky lg:top-14 lg:min-w-[280px] z-10 transition-all duration-[500ms] ease-in-out overflow-hidden relative ${
-        isOpen ? "max-h-[1000px] p-8" : "max-h-[160px] lg:max-h-[1000px] lg:p-5"
+        isOpen ? "max-h-[1000px] p-8" : "max-h-[160px] lg:max-h-[1300px] lg:p-5"
         }`}>
                 {/* Nút Toggle chỉ hiện trên Mobile */}
                 <button
@@ -123,7 +123,7 @@ const SidebarAdmin = ({ profile, contacts, refreshData, volume, setVolume }) => 
                             </button>
                             
                             
-                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 bg-[#1e1e1f] border border-[#383838] text-[#ffdb70] text-[10px] font-medium rounded-md shadow-xl opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-200 pointer-events-none whitespace-nowrap">
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 bg-[#1e1e1f] border border-[#383838] text-[#ffdb70] text-[10px] font-medium rounded-md shadow-xl opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-200 pointer-events-none whitespace-nowrap">
                                 Edit Profile
                                 <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[#383838]"></div>
                                
@@ -143,7 +143,7 @@ const SidebarAdmin = ({ profile, contacts, refreshData, volume, setVolume }) => 
                             </button>
 
                             
-                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 bg-[#1e1e1f] border border-[#383838] text-[#ffdb70] text-[10px] font-medium rounded-md shadow-xl opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-200 pointer-events-none whitespace-nowrap">
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2  bg-[#1e1e1f] border border-[#383838] text-[#ffdb70] text-[10px] font-medium rounded-md shadow-xl opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-200 pointer-events-none whitespace-nowrap">
                                 Add Contact
                                 <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[#383838]"></div>
                             </div>
@@ -195,7 +195,7 @@ const SidebarAdmin = ({ profile, contacts, refreshData, volume, setVolume }) => 
                      <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent via-[#383838] to-transparent my-8"></div>
 
                     {/* 4. Social Links */}
-                    <ul className="flex justify-center items-center gap-4 text-xl pb-2">
+                    <ul className="flex justify-center items-center gap-4 text-xl pb-6">
                         {linkContacts?.map((contact)=>(
                             <li key={contact.Id} className="group relative hover:text-[#ffdb70] transition-colors">
                                 <a href={contact.Value} target="_blank" rel="noopener noreferrer" className=" text-gray-400 hover:text-[#ffdb70] transition-all duration-[500ms] ease-out hover:-translate-y-1 block">
@@ -204,7 +204,7 @@ const SidebarAdmin = ({ profile, contacts, refreshData, volume, setVolume }) => 
                                 <p className="absolute bottom-[25px] left-1/2 transform -translate-x-1/2 bg-[#2b2b2b] text-gray-200 text-xs font-light py-1 px-2 rounded pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
                                     {contact.Name}
                                 </p>
-                                <div className="absolute flex  gap-2 opacity-0 group-hover:opacity-100 transition-opacity -translate-x-1/2 left-1/2 ">
+                                <div className="absolute flex top-1/2 mt-2 gap-2 opacity-0 group-hover:opacity-100 transition-opacity -translate-x-1/2 left-1/2 ">
                                     {/* Edit */}
                                     <button onClick={()=> handleEdit(contact)} className='text-gray-400 hover:text-[#ffdb70] transition-colors'>
                                         <IconRender iconName="RiEdit2Line" />
