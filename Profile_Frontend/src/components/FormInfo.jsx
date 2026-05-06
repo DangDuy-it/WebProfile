@@ -231,17 +231,17 @@ const FormInfo = ({ profile, isModalOpen, setIsModalOpen, refreshData }) => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex gap-3 pt-4">
+                    <div className="mt-4 flex justify-center font-bold gap-4">
                         <button 
                             type="button"
                             onClick={handleClose}
-                            className="flex-1 py-3 text-gray-400 hover:text-white transition"
+                            className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors"
                         >
                             Close
                         </button>
                         <button 
                             type="submit"
-                            className="flex-1 bg-[#ffdb70] text-black font-bold py-3 rounded-xl hover:bg-[#ffe085] transition shadow-lg shadow-[#ffdb70]/10"
+                            className=" bg-[#ffdb70] text-gray-800 px-4 py-2 rounded-lg hover:bg-[#ffdb70]/80 transition-colors"
                         >
                             Save
                         </button>

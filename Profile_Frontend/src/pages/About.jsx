@@ -106,7 +106,7 @@ const About = () => {
                         <h4 className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2
                                      flex items-center gap-2 bg-[#222224] px-2 py-1 rounded-[10px] text-md font-bold text-[#ffdb70] border-2 border-[#1e1e1f] shadow-md
                                      group-hover:bg-[#ffdb70] group-hover:border-[#ffdb70] group-hover:text-gray-600 transition-colors duration-300">
-                            <IconRender iconName={renderSkillIcon("Tool")} /> Tools
+                            <IconRender iconName={renderSkillIcon("Tool")} /> Tool
                         </h4>
                         <div className="flex flex-col items-center w-full gap-2 mt-4">
                             {toolSkills?.map((skill) => (

@@ -152,7 +152,7 @@ const SidebarAdmin = ({ profile, contacts, refreshData, volume, setVolume }) => 
                     {/* Contact List */}
                     <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
                         {infoContacts?.map((contact)=>(
-                            <li key={contact.Id} className="flex items-center gap-4 text-sm">
+                            <li key={contact.Id} className="flex items-center gap-4 text-sm group">
 
                                 <div className="relative group bg-[#202022] text-[#ffdb70] w-11 h-11 flex items-center justify-center rounded-xl shadow-md border border-[#383838] shrink-0 hover:bg-[#383838] transition-colors ">
                                 {/* Edit button contact */}
@@ -184,7 +184,7 @@ const SidebarAdmin = ({ profile, contacts, refreshData, volume, setVolume }) => 
                                 </div>
                                 <div>
                                     <button onClick={()=> handleDelete(contact.Id)}>
-                                        <IconRender iconName="RiDeleteBinLine" className="text-gray-400 hover:text-red-500 transition-colors cursor-pointer" />
+                                        <IconRender iconName="RiDeleteBinLine" className="text-gray-400 opacity-0 group-hover:opacity-100 hover:text-red-500 transition-colors cursor-pointer" />
                                     </button>
                                 </div>
                             </li>

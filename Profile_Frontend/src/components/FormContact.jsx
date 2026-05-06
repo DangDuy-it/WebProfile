@@ -66,6 +66,7 @@ const FormContact = ({ contact, isModalOpen, setIsModalOpen, refreshData }) => {
                 await contactsServices.createContact(formDataContact);
                 alert("Contact created successfully!");
             }
+            setFormDataContact(initialFormData); // Reset form sau khi submit thành công
             await refreshData(); // Làm mới dữ liệu sau khi cập nhật
             setIsModalOpen(false); // Đóng modal sau khi submit
         } catch (error) {
@@ -82,20 +83,20 @@ const FormContact = ({ contact, isModalOpen, setIsModalOpen, refreshData }) => {
                 <form  onSubmit={handleSubmitContact}>
 
                     {/* Type and Icon */}
-                    <div className="flex items-center justify-center gap-4 mb-4">
+                    <div className="flex items-center justify-center  mb-4">
                         {/* Type */}
-                        <div>
+                        <div className="flex-1 mr-4">
                             {/* <label className="block text-sm text-gray-400 mb-1">Type</label> */}
                             <input type="text"
                             name="Type"
                             value={formDataContact.Type}
                             onChange={handleChange}
                             placeholder='Type'
-                            className='border px-3 py-2 rounded-lg bg-[#2b2b2c] border-[#383838] text-white outline-none hover:border-[#ffdb70] focus:border-[#ffdb70] transition-colors'
+                            className='border w-full px-3 py-2 rounded-lg bg-[#2b2b2c] border-[#383838] text-white outline-none hover:border-[#ffdb70] focus:border-[#ffdb70] transition-colors'
                             />
                         </div>
                         {/* Icon */}
-                        <div>
+                        <div className="flex-shrink-0">
                             {/* Nút bấm để mở Picker */}
                             <button
                                 type="button"
@@ -160,17 +161,17 @@ const FormContact = ({ contact, isModalOpen, setIsModalOpen, refreshData }) => {
                         </select>
                     </div>
                     {/* Buttons */}
-                    <div className="flex justify-center items-center gap-4"> 
+                    <div className="mt-4 flex justify-center font-bold gap-4"> 
                         <button 
                             type="button" 
                             onClick={()=> setIsModalOpen(false)} 
-                            className="mt-4 ml-2 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
+                            className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors"
                         >
-                            Cancel
+                            Close
                         </button>
 
-                        <button type="submit" className="mt-4 px-4 py-2 bg-[#ffdb70] text-black rounded hover:bg-[#e6c25c] transition-colors">
-                            {contact ? "Update Contact" : "Create Contact"}
+                        <button type="submit" className="bg-[#ffdb70] text-gray-800 px-4 py-2 rounded-lg hover:bg-[#ffdb70]/80 transition-colors">
+                            {contact ? "Save" : "Create"}
                         </button>
                     </div>
                 </form>
