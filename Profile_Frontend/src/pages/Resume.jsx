@@ -46,21 +46,19 @@ const Resume = () => {
                         />
                         <div className="absolute top-[100%] left-1/2 -translate-x-1/2 border-l-1 border-[#2b2b2b] h-full"></div>
                     </div>
-                    {/* <div className="bg-[#ffdb70] w-10 h-10 rounded-xl flex items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.5)] border border-white/5">
-                        <img src="/assets/book.svg" alt="book" className="w-8 h-8 "/>
-                    </div> */}
-                    
+
                     <h2 className="text-xl font-bold text-white inline-block">Education</h2>
                 </div>
 
                 <ul className="relative lg:ml-[9px] ml-[7px]">
                     {educationType?.map((item, index)=>(
-                        <TimelineItem key={item.OrderIndex} item={item} isLast={index === educationType.length - 1} />
+                        <TimelineItem key={item.OrderIndex} 
+                                    item={item} 
+                                    isLast={index === educationType.length - 1} />
                     ))}
                 </ul>
-
-                
             </div>
+
             {/* Experience */}
             <div className="text-start mb-6 w-full relative">
                 <div className="flex items-center gap-2 mb-4">

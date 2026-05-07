@@ -164,8 +164,8 @@ export const updateAboutHighlight= async(req: Request, res: Response): Promise<v
     }
     // Cập nhật thông tin AboutHighlight
     try{
-        const updateHighlight= await prisma.aboutHighlight.updateMany({
-            where: { Id: Number(Id), ProfileId: currentProfileId },
+        const updateHighlight= await prisma.aboutHighlight.update({
+            where: { Id: Number(Id) },
             data: {
                 Name,
                 Description,
@@ -173,7 +173,7 @@ export const updateAboutHighlight= async(req: Request, res: Response): Promise<v
                 OrderIndex,
             }
         })
-        if(updateHighlight.count === 0){
+        if(!updateHighlight){
             res.status(404).json({ error: 'About highlight not found' });
             return;
         }
@@ -312,8 +312,8 @@ export const updateSkill= async(req: Request, res: Response): Promise<void> => {
     }
     // Cập nhật thông tin Skill
     try{
-        const updateSkill= await prisma.skill.updateMany({
-            where: { Id: Number(Id), ProfileId: currentProfileId },
+        const updateSkill= await prisma.skill.update({
+            where: { Id: Number(Id) },
             data: {
                 Name,
                 Category,
@@ -321,7 +321,7 @@ export const updateSkill= async(req: Request, res: Response): Promise<void> => {
                 OrderIndex,
             }
         })
-        if(updateSkill.count === 0){
+        if(!updateSkill){
             res.status(404).json({ error: 'Skill not found' });
             return;
         }
