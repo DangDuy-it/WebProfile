@@ -4,7 +4,7 @@ import Navbar from "../../components/Navbar";
 import Loading from "../../components/Loading";
 import Error from "../../components/Error";
 import AdminAbout from "../../pages/AdminAbout";
-import Resume from "../../pages/Resume";
+import AdminResume from "../../pages/AdminResume";
 import Portfolio from "../../pages/Portfolio";
 import Contact from "../../pages/Contact";
 import IconRender from "../../constants/icons";
@@ -13,7 +13,7 @@ import { contactsServices } from "../../services/contactsServices";
 
 
 const AdminLayout = () => {
-  const [activeTab, setActiveTab] = useState('About');
+  const [activeTab, setActiveTab] = useState('Resume');
   const [sidebarData, setSidebarData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -81,7 +81,7 @@ const AdminLayout = () => {
           {/* Nội dung các trang sẽ viết tiếp ở đây */}
           <div className="w-full h-full">
             {activeTab === "About" && <AdminAbout />}
-            {activeTab === "Resume" && <Resume />}
+            {activeTab === "Resume" && <AdminResume />}
             {activeTab === "Portfolio" && <Portfolio/>}
             {activeTab === "Contact" && <Contact />}
           </div>
