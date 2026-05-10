@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { authAdmin } from "../middleware/authAdmin";
-import { getContactData, updateInfo, createContact, deleteContact, updateContact } from "../controllers/contactsControllers";
 import {upload} from "../middleware/upload";
+import { getContactData, updateInfo, createContact, deleteContact, updateContact } from "../controllers/contactsControllers";
 
 const router= Router();
 
