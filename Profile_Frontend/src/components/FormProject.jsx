@@ -10,6 +10,7 @@ const FormProject = ({project, isModalOpen, setIsModalOpen, refreshData} ) => {
         LinkDemo: "",
         LinkGithub: "",
     }
+    const API_URL = import.meta.env.VITE_API_URL;
     const [formDataProject, setFormDataProject] = useState(initialFormData);
     const [preview, setPreview] = useState(null);
     const modalRef = useRef();
@@ -82,7 +83,7 @@ const FormProject = ({project, isModalOpen, setIsModalOpen, refreshData} ) => {
     if(!isModalOpen) return null;
 
     return(
-<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
             <div ref={modalRef} className="bg-[#1e1e1f] border border-[#383838] rounded-2xl w-full max-w-xl p-6 shadow-2xl relative">
                 
                 {/* Nút đóng */}
@@ -100,16 +101,16 @@ const FormProject = ({project, isModalOpen, setIsModalOpen, refreshData} ) => {
                 <form onSubmit={handleSubmitProject} className="space-y-4">
                     {/* Phần chọn ảnh */}
                     <div className="flex flex-col items-center p-4 border-2 border-dashed border-[#383838] rounded-xl bg-[#2b2b2c]">
-                        {preview && <img src={preview} alt="preview" className="h-32 mb-2 rounded-lg object-cover" />}
+                        {preview && <img src={preview.startsWith("blob:") ? preview : `${API_URL}${preview}`} alt="preview" className="h-32 mb-2 rounded-lg object-cover" />}
                         <input type="file" onChange={handleImageChange} className="text-xs text-gray-400 file:bg-[#ffdb70] file:border-none file:rounded file:px-2 file:py-1 file:mr-2 cursor-pointer" />
                     </div>
 
                     <input name="Title" value={formDataProject.Title} onChange={handleChange} placeholder="Project Title" className="w-full bg-[#1e1e1f] border border-[#383838] rounded-lg p-3 text-white outline-none focus:border-[#ffdb70]" required />
 
                     <select name="Category" value={formDataProject.Category} onChange={handleChange} className="w-full bg-[#1e1e1f] border border-[#383838] rounded-lg p-3 text-white outline-none focus:border-[#ffdb70]">
-                        <option value="Web Design">Web Design</option>
                         <option value="Web Development">Web Development</option>
-                        <option value="Applications">Applications</option>
+                        <option value="Mobile Development">Mobile Development</option>
+                        <option value="Other">Other</option>
                     </select>
 
                     <div className="grid grid-cols-2 gap-4">
