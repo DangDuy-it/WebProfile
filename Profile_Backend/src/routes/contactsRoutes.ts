@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { authAdmin } from "../middleware/authAdmin";
 import {upload} from "../middleware/upload";
-import { getContactData, updateInfo, createContact, deleteContact, updateContact } from "../controllers/contactsControllers";
+import { getContactData, updateInfo, createContact, deleteContact, updateContact, updateMapConfig } from "../controllers/contactsControllers";
 
 const router= Router();
 
@@ -10,6 +10,7 @@ router.get('/contacts', getContactData);
 
 //Admin
 router.patch('/profile-info/:Id', upload.fields([{ name: 'avatar', maxCount: 1 }, { name: 'audio', maxCount: 1 }]), authAdmin, updateInfo);
+router.patch('/profile-map/:Id', authAdmin, updateMapConfig);
 router.put('/contact', authAdmin, createContact);
 router.delete('/contact/:Id', authAdmin, deleteContact);
 router.patch('/contact/:Id', authAdmin, updateContact);

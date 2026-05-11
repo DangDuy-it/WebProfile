@@ -13,6 +13,9 @@ export const getContactData = async(req: Request, res: Response): Promise<void> 
                 Badge: true,
                 AvtDarkImage: true,
                 AudioUrl: true,
+                MapLat: true,
+                MapLng: true,
+                MapZoom: true,
                 ContactInfo:{
                     where:{ IsVisible: true },
                     orderBy:{ Id: 'asc' },
@@ -37,6 +40,42 @@ export const getContactData = async(req: Request, res: Response): Promise<void> 
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+// Admin use only
+// Update Map configuration
+export const updateMapConfig = async(req: Request, res: Response): Promise<void> => {
+    const user = (req as any).user;
+    const {Id} = req.params;
+    const { MapLat, MapLng, MapZoom } = req.body;
+
+    if(!user){
+        res.status(401).json({ error: 'Unauthorized' });
+        return;
+    }
+
+    try {
+        const updatedProfile = await prisma.profile.update({
+            where: { Id: Number(Id) },
+            data: {
+                MapLat,
+                MapLng,
+                MapZoom: Number(MapZoom)
+            }
+        });
+
+        res.status(200).json({
+            message: 'Map configuration updated successfully',
+            data: {
+                MapLat: updatedProfile.MapLat,
+                MapLng: updatedProfile.MapLng,
+                MapZoom: updatedProfile.MapZoom
+            }
+        });
+    } catch(err) {
+        console.error('Error updating map data:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
 // Admin use only
 // Update contact information 
 export const updateInfo= async(req: Request, res: Response): Promise<void> => {

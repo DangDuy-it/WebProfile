@@ -6,14 +6,14 @@ import Error from "../../components/Error";
 import AdminAbout from "../../pages/AdminAbout";
 import AdminResume from "../../pages/AdminResume";
 import AdminPortfolio from "../../pages/AdminPortfolio";
-import Contact from "../../pages/Contact";
+import AdminContact from "../../pages/AdminContact";
 import IconRender from "../../constants/icons";
 import AudioPlayer from "../../hooks/AudioPlayer";
 import { contactsServices } from "../../services/contactsServices";
 
 
 const AdminLayout = () => {
-  const [activeTab, setActiveTab] = useState('Portfolio');
+  const [activeTab, setActiveTab] = useState('About');
   const [sidebarData, setSidebarData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -83,7 +83,7 @@ const AdminLayout = () => {
             {activeTab === "About" && <AdminAbout />}
             {activeTab === "Resume" && <AdminResume />}
             {activeTab === "Portfolio" && <AdminPortfolio/>}
-            {activeTab === "Contact" && <Contact />}
+            {activeTab === "Contact" && <AdminContact />}
           </div>
         </section>
       </div>

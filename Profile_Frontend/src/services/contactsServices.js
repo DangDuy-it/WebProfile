@@ -29,6 +29,16 @@ export const contactsServices = {
         }
     },
 
+    updateMapConfig: async (Id, data) => {
+        try{
+            const response = await api.patch(`/profile-map/${Id}`, data);
+            return response.data;
+        } catch (error) {
+            console.error('Error updating map config:', error);
+            throw error;
+        }
+    },
+
     createContact: async (data)=>{
         try{
             const response = await api.put('/contact', data);

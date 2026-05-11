@@ -7,7 +7,8 @@
     "dev:backend": "npm run dev --prefix Profile_Backend"
   },
   "devDependencies": {
-    "concurrently": "^9.1.0"
+    "concurrently": "^9.1.0",
+    "fs-extra": "^11.3.5"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",

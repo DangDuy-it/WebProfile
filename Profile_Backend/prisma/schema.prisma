@@ -20,6 +20,9 @@ model Profile {
   Body           String?          @db.NVarChar(Max)
   CreatedAt      DateTime         @default(now())
   UpdatedAt      DateTime         @default(now())
+  MapLat         String?          @db.NVarChar(50)
+  MapLng         String?          @db.NVarChar(50)
+  MapZoom        Int?             @default(15)
   
   AboutHighlight AboutHighlight[]
   ContactInfo    ContactInfo[]

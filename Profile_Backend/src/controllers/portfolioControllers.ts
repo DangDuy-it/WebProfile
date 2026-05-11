@@ -161,18 +161,34 @@ export const deleteProject= async(req: Request, res: Response): Promise<void> =>
         res.status(401).json({ error: 'Unauthorized' });
         return;
     }
+
     const currentProfileId = Number(user.Id);
+
     try{
-        const deletedProject = await prisma.project.deleteMany({
+        // 1. Tìm Project để lấy URL ảnh trước khi xóa
+        const projectToDelete = await prisma.project.findFirst({
             where: {
                 Id: Number(Id),
                 ProfileId: currentProfileId,
             }
         });
-        if(deletedProject.count === 0){
+
+        if(!projectToDelete){
             res.status(404).json({ error: 'Project not found' });
             return;
         }
+
+        // 2. Định vị và xóa ảnh trên ổ đĩa nếu tồn tại
+        if (projectToDelete.ImageUrl) {
+            const oldPath = path.join(process.cwd(), 'public', projectToDelete.ImageUrl);
+            if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+        }
+
+        // 3. Tiến hành xóa Project trong Database
+        await prisma.project.delete({
+            where: { Id: Number(Id) }
+        });
+
         res.status(200).json({ message: 'Project deleted successfully' });
     
     }catch(err){

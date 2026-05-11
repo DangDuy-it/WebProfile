@@ -3,6 +3,7 @@ import emailjs from "@emailjs/browser";
 import IconRender from "../constants/icons";
 import { contactsServices } from "../services/contactsServices";
 
+
 const ContactForm=()=>{
     const formRef= useRef();
     const messageRef= useRef();
@@ -10,11 +11,13 @@ const ContactForm=()=>{
     const [status, setStatus]= useState("");
 
     // Map Config State
+    const [profileId, setProfileId] = useState(null);
     const [mapConfig, setMapConfig] = useState({
         lat: import.meta.env.VITE_MAP_LAT,
         lng: import.meta.env.VITE_MAP_LNG,
         zoom: import.meta.env.VITE_MAP_ZOOM || 15
     });
+    const [isUpdatingMap, setIsUpdatingMap] = useState(false);
 
     // Fetch dữ liệu Map Config từ Database
     useEffect(() => {
@@ -22,6 +25,7 @@ const ContactForm=()=>{
             try {
                 const data = await contactsServices.getContacts();
                 if (data) {
+                    setProfileId(data.Id);
                     setMapConfig({
                         lat: data.MapLat || import.meta.env.VITE_MAP_LAT,
                         lng: data.MapLng || import.meta.env.VITE_MAP_LNG,
@@ -36,6 +40,33 @@ const ContactForm=()=>{
     }, []);
 
     const mapSrc = `https://maps.google.com/maps?q=${mapConfig.lat},${mapConfig.lng}&z=${mapConfig.zoom}&output=embed&t=m`;
+
+    const handleMapConfigChange = (e) => {
+        const { name, value } = e.target;
+        setMapConfig(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleSaveMapConfig = async (e) => {
+        e.preventDefault();
+        if (!profileId) return;
+        setIsUpdatingMap(true);
+        try {
+            await contactsServices.updateMapConfig(profileId, {
+                MapLat: String(mapConfig.lat),
+                MapLng: String(mapConfig.lng),
+                MapZoom: Number(mapConfig.zoom)
+            });
+            alert("Map configuration updated successfully!");
+        } catch (error) {
+            console.error("Error saving map config:", error);
+            alert("Failed to update map configuration.");
+        } finally {
+            setIsUpdatingMap(false);
+        }
+    };
 
     /* Auto-resize function for the message textarea:
     1. Set the height to "auto" to reset any previous height
@@ -94,6 +125,54 @@ const ContactForm=()=>{
     
     return(
         <section className="mt-10 w-full">
+            {/* Form Thay Đổi Bản Đồ (Chỉ dảnh cho Admin) */}
+            <h3 className="text-2xl font-bold mb-4">Map Configuration</h3>
+            <form onSubmit={handleSaveMapConfig} className="space-y-4 mb-8 bg-[#1e1e1f] p-6 rounded-[20px] border border-[#333]">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="flex flex-col">
+                        <label className="text-gray-400 mb-2 text-sm">Latitude</label>
+                        <input 
+                            type="text"
+                            name="lat"
+                            value={mapConfig.lat || ""}
+                            onChange={handleMapConfigChange}
+                            required
+                            className="bg-[#1e1e1f] border border-[#333] text-white rounded-[10px] p-3 outline-none focus:border-[#ffdb70] transition-colors"
+                        />
+                    </div>
+                    <div className="flex flex-col">
+                        <label className="text-gray-400 mb-2 text-sm">Longitude</label>
+                        <input 
+                            type="text"
+                            name="lng"
+                            value={mapConfig.lng || ""}
+                            onChange={handleMapConfigChange}
+                            required
+                            className="bg-[#1e1e1f] border border-[#333] text-white rounded-[10px] p-3 outline-none focus:border-[#ffdb70] transition-colors"
+                        />
+                    </div>
+                    <div className="flex flex-col">
+                        <label className="text-gray-400 mb-2 text-sm">Zoom Level</label>
+                        <input 
+                            type="number"
+                            name="zoom"
+                            value={mapConfig.zoom || 15}
+                            onChange={handleMapConfigChange}
+                            required
+                            min="1" max="21"
+                            className="bg-[#1e1e1f] border border-[#333] text-white rounded-[10px] p-3 outline-none focus:border-[#ffdb70] transition-colors"
+                        />
+                    </div>
+                </div>
+                <button 
+                    type="submit"
+                    disabled={isUpdatingMap}
+                    className="w-full bg-gradient-to-br from-[#383838] to-[#212121] text-[#ffdb70] p-3 rounded-[15px] font-medium shadow-md hover:from-[#404040] hover:to-[#212121] transition-all disabled:opacity-50"
+                >
+                    {isUpdatingMap ? "Saving..." : "Save Map Configuration"}
+                </button>
+            </form>
+
             {/* PHẦN BẢN ĐỒ */}
             <div className="mb-10 w-full relative h-[300px] rounded-[20px] overflow-hidden border border-[#333] shadow-lg group">
                 <iframe
